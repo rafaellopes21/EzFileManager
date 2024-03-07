@@ -8,7 +8,7 @@ class IndexController extends Controller {
 
         //construir e melhorar a função view para chamar apenas uma vez e ela ser responsável por chamar o numero x de layoutRender
 
-        $this->view('layouts/body', [], 'bodyContent');
+        $this->view('_layouts/body', [], 'bodyContent');
         return $this->view('index', ['hello' => 'Hello World']);
     }
 }
