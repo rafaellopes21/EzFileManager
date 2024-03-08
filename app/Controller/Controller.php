@@ -6,8 +6,8 @@ use flight\template\View;
 
 class Controller{
 
-    public function view($view, $viewData, $layoutRender = false){
+    public static function view($view, $viewData = []){
         \Flight::set('flight.views.path', __DIR__.'/../../resources/views');
-        return $layoutRender ? \Flight::render($view, $viewData, $layoutRender) : \Flight::render($view, $viewData);
+        return \Flight::render($view, $viewData);
     }
 }
