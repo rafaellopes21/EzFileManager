@@ -1,6 +1,7 @@
 {
     "require": {
-        "flightphp/core": "^3.6"
+        "flightphp/core": "^3.6",
+        "amplie-solucoes/ezfile": "^1.0"
     },
     "autoload": {
         "psr-4": {

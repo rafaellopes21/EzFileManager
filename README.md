@@ -3,6 +3,8 @@ EzFileManager - Easy and Simple Filemanager UI
 
 https://docs.flightphp.com/examples
 
+https://getbootstrap.com/docs/5.3/getting-started/introduction/
+
 ### Run the Project
 Copy and paste the cmd into your terminal and start the project:
 ```sh
