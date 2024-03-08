@@ -26,6 +26,7 @@
                 <li>Inserir na função 'includeContent()' um jeito de permitir que o usuário volte a página anterior após o popstate (armazenar histórico)</li>
                 <li>Ao criar a pasta de onde os arquivos ficarão armazenados, deve-se criar a pasta fora da public</li>
             </ol>
+            <button onclick="includeContent('/teste')">Chamar Fn</button>
         </div>
     </div>
 

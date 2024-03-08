@@ -84,6 +84,14 @@ function loadingContent(show = true){
 function includeContent(routeView){
     loadingContent();
     $(main_content).load(routeView, function (){
+        history.pushState({ url: window.location.href }, '', routeView);
         loadingContent(false);
     });
 }
+
+window.addEventListener('popstate', function (event) {
+    let olrUrl = window.location.pathname;
+    if (olrUrl && olrUrl != "" && olrUrl != " ") {
+        //includeContent(olrUrl);
+    }
+});
