@@ -11,33 +11,19 @@
         </a>
         <hr>
     </div>
+
     <ul class="mynav nav nav-pills flex-column mb-auto">
         <li class="nav-item mb-1">
-            <a class="nav-link active" href="#">
-                <i class="fa-regular fa-user"></i>
-                Profile
+            <a class="nav-link" type="button" to="/">
+                <i class="fa-solid fa-house"></i> Home
             </a>
         </li>
-
+        <hr class="mb-2 mt-2">
         <li class="nav-item mb-1">
-            <a href="#" class="nav-link">
-                <i class="fa-regular fa-newspaper"></i>
-                Articles
+            <a class="nav-link" type="button" to="/languages">
+                <i class="fa-solid fa-language"></i> Languages
             </a>
         </li>
-        <li class="nav-item mb-1">
-            <a class="nav-link" href="#">
-                <i class="fa-solid fa-archway"></i>
-                Institutions
-            </a>
-        </li>
-        <li class="nav-item mb-1">
-            <a class="nav-link" href="#">
-                <i class="fa-solid fa-graduation-cap"></i>
-                Organizations
-            </a>
-        </li>
-
         <li class="sidebar-item  nav-item mb-1">
             <a href="#" class="nav-link collapsed dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#settings" aria-expanded="false" aria-controls="settings">
                 <i class="fas fa-cog pe-2"></i>

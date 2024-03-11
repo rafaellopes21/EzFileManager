@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amplie-solucoes/ezfile",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rafaellopes21/EzFile.git",
-                "reference": "5c2224852e9ec4f4779ca08a4bf61bb9aa9e68d4"
+                "reference": "824c0f175a19d09770c09e84bf981b93ab7e06d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/5c2224852e9ec4f4779ca08a4bf61bb9aa9e68d4",
-                "reference": "5c2224852e9ec4f4779ca08a4bf61bb9aa9e68d4",
+                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/824c0f175a19d09770c09e84bf981b93ab7e06d5",
+                "reference": "824c0f175a19d09770c09e84bf981b93ab7e06d5",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "Easy and Simple Filemanager",
             "support": {
                 "issues": "https://github.com/rafaellopes21/EzFile/issues",
-                "source": "https://github.com/rafaellopes21/EzFile/tree/1.0.0"
+                "source": "https://github.com/rafaellopes21/EzFile/tree/1.0.1"
             },
-            "time": "2024-02-28T17:52:35+00:00"
+            "time": "2024-03-11T13:15:26+00:00"
         },
         {
             "name": "flightphp/core",

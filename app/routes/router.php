@@ -34,6 +34,6 @@ $route = Flight::router();
 });*/
 
 $route->get('/', [new \App\Controller\ManagerController(), 'index']);
-$route->get('/teste', [new \App\Controller\ManagerController(), 'teste']);
+$route->get('/languages', [new \App\Controller\ManagerController(), 'languages']);
 
 Flight::start();

@@ -18,15 +18,8 @@
     <div class="container-fluid p-0 d-flex h-100 blur-content" id="general-content">
         <?= import('_layouts/menus/navbar'); ?>
         <?= import('_layouts/menus/sidebar'); ?>
-        <div class="flex-fill overflow-auto p-4 fix-header" id="main-content">
-            <?= import('home/index'); ?>
-            <ol>
-                <li>Inserir footer fixado eterno</li>
-                <li>Inserir na função 'includeContent()' um jeito de mudar e atualizar em tempo real o endereço da URL com popstate</li>
-                <li>Inserir na função 'includeContent()' um jeito de permitir que o usuário volte a página anterior após o popstate (armazenar histórico)</li>
-                <li>Ao criar a pasta de onde os arquivos ficarão armazenados, deve-se criar a pasta fora da public</li>
-            </ol>
-            <button onclick="includeContent('/teste')">Chamar Fn</button>
+        <div class="flex-fill overflow-auto p-3 fix-header" id="main-content">
+            <?= import($main_content); ?>
         </div>
     </div>
 

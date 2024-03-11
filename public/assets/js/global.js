@@ -4,24 +4,41 @@ const sidebar = document.querySelector("#bdSidebar");
 const main_content = document.querySelector("#main-content");
 const general_content = document.querySelector("#general-content");
 const button_theme = document.querySelector("#theme-button");
-const current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
+const page_links = document.querySelectorAll("a[to]");
+var current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
 
 /*======== Call Starter Functions ========*/
 $(document).ready(function (){
-    getCurrentTheme();
+    getThemeMode();
+    setMenuActive(window.location.pathname);
     loadingContent(false);
 });
 
 /*======= Main Executions Fuctions ========*/
-button_theme.addEventListener("click", themeModeChanger);
+button_theme.addEventListener("click", setThemeMode);
+page_links.forEach(l => {l.addEventListener("click", function (){loadLink(l);});});
 
-function themeModeChanger(){
+
+/*======= Callable Sys Functions ========*/
+function setThemeMode(){
+    if(localStorage.getItem('user-theme') === 'dark'){
+        localStorage.setItem('user-theme', 'light');
+    } else {
+        localStorage.setItem('user-theme', 'dark');
+    }
+
+    current_theme = localStorage.getItem('user-theme');
+    getThemeMode();
+}
+
+function getThemeMode(){
     let htmlTag = document.querySelector("html");
     let logos = document.querySelectorAll(".logo");
-    let themeIcon = this.children[0];
-    let themeText = this.children[1];
+    let allColorItems = document.querySelectorAll('.bg-theme');
+    let themeIcon = button_theme.children[0];
+    let themeText = button_theme.children[1];
 
-    if(themeIcon.classList.contains('fa-sun')){
+    if(current_theme === 'dark'){
         themeIcon.classList.remove('fa-sun');
         themeIcon.classList.add('fa-moon');
 
@@ -35,9 +52,12 @@ function themeModeChanger(){
         sidebar.setAttribute("style", 'border-right: 1px solid #6d6d6d;');
 
         logos.forEach(logo =>{ logo.src = logo.getAttribute('light'); });
+        allColorItems.forEach(changer => {
+            changer.classList.remove('bg-light');
+            changer.classList.add('bg-dark');
+        });
 
         htmlTag.setAttribute("data-bs-theme", "dark");
-        localStorage.setItem('user-theme', 'dark');
     } else {
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
@@ -52,15 +72,12 @@ function themeModeChanger(){
         sidebar.setAttribute("style", 'border-right: 1px solid #e0e1e2;');
 
         logos.forEach(logo =>{ logo.src = logo.getAttribute('dark'); });
+        allColorItems.forEach(changer => {
+            changer.classList.remove('bg-dark');
+            changer.classList.add('bg-light');
+        });
 
         htmlTag.setAttribute("data-bs-theme", "light");
-        localStorage.setItem('user-theme', 'light');
-    }
-}
-
-function getCurrentTheme(){
-    if(current_theme === 'dark'){
-        button_theme.click();
     }
 }
 
@@ -81,17 +98,31 @@ function loadingContent(show = true){
     }
 }
 
+function loadLink(link){
+    includeContent(link.getAttribute('to'));
+    setMenuActive(link.getAttribute('to'));
+}
+
+function setMenuActive(to){
+    page_links.forEach(l => { l.classList.remove("active"); });
+    document.querySelector('a[to="'+to+'"]').classList.add("active");
+}
+
 function includeContent(routeView){
-    loadingContent();
-    $(main_content).load(routeView, function (){
+    $instantLoad = "instantLoad=1";
+    $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
+    //loadingContent();
+
+    $(main_content).load(routeView+$renderView, function (){
         history.pushState({ url: window.location.href }, '', routeView);
-        loadingContent(false);
+        getThemeMode();
+        //loadingContent(false);
     });
 }
 
 window.addEventListener('popstate', function (event) {
     let olrUrl = window.location.pathname;
     if (olrUrl && olrUrl != "" && olrUrl != " ") {
-        //includeContent(olrUrl);
+        includeContent(olrUrl);
     }
 });
