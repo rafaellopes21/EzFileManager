@@ -19,3 +19,6 @@ composer install
 ```sh
 php -S 127.0.0.1:8001 -t public
 ```
+
+### Extensions
+Enable pdo_sqlite in php.ini file if you want to use with database
