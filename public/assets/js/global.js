@@ -104,8 +104,14 @@ function loadLink(link){
 }
 
 function setMenuActive(to){
+    let clickMenu = document.querySelector('a[to="'+to+'"]');
     page_links.forEach(l => { l.classList.remove("active"); });
-    document.querySelector('a[to="'+to+'"]').classList.add("active");
+    clickMenu.classList.add("active");
+    if(clickMenu.parentElement.classList.contains("sidebar-item")){
+        if(!clickMenu.parentElement.parentElement.classList.contains("show")){
+            clickMenu.parentElement.parentElement.previousElementSibling.click();
+        }
+    }
 }
 
 function includeContent(routeView){

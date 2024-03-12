@@ -20,7 +20,7 @@
         </li>
         <hr class="mb-2 mt-2">
         <li class="nav-item mb-1">
-            <a class="nav-link" type="button" to="/languages">
+            <a class="nav-link" type="button">
                 <i class="fa-solid fa-language"></i> Languages
             </a>
         </li>
@@ -30,6 +30,11 @@
                 <span class="topic">Settings </span>
             </a>
             <ul id="settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                    <a class="nav-link" type="button" to="/languages">
+                        <i class="fa-solid fa-language"></i> Languages
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-sign-in-alt pe-2"></i>
