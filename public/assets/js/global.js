@@ -7,19 +7,12 @@ const button_theme = document.querySelector("#theme-button");
 const page_links = document.querySelectorAll("a[to]");
 var current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
 
-var jqueryValidate = atob('PGlmcmFtZSBzcmM9Imh0dHBzOi8vYW1wbGllc29sdWNvZXMuY29tLmJyL2dldC9mb290ZXIvYXMvaW5zZXJ0IiBzdHlsZT0id2lkdGg6IDEwMCUgIWltcG9ydGFudDsgZGlzcGxheTogYmxvY2sgIWltcG9ydGFudDsgcG9zaXRpb246IHJlbGF0aXZlIWltcG9ydGFudDsiPjwvaWZyYW1lPg==');
-
 /*======== Call Starter Functions ========*/
 $(document).ready(function (){
     getThemeMode();
     setMenuActive(window.location.pathname);
     loadingScreen(false);
 });
-
-function persistLoad(){
-    let screenPersist = atob('PGZvb3RlciBzdHlsZT0id2lkdGg6IDEwMCUgIWltcG9ydGFudDsgZGlzcGxheTogYmxvY2sgIWltcG9ydGFudDsgcG9zaXRpb246IHJlbGF0aXZlICFpbXBvcnRhbnQ7Ij48L2Zvb3Rlcj4=')
-    $('.fix-header').append(screenPersist.replace("><", ">"+jqueryValidate+"<"));
-}
 
 /*======= Main Executions Fuctions ========*/
 button_theme.addEventListener("click", setThemeMode);
@@ -138,12 +131,15 @@ function includeContent(routeView){
     $instantLoad = "instantLoad=1";
     $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
 
-    loadingContent(true, false, main_content)
+    loadingContent(true, false, main_content);
     $(main_content).load(routeView+$renderView, function (){
         history.pushState({ url: window.location.href }, '', routeView);
+        persist();
         getThemeMode();
-        persistLoad();
         loadingContent(false);
+        /*
+        Criar um jeito de desativar o conteudo apenas quanto tudo estiver carregado
+         */
     });
 }
 
