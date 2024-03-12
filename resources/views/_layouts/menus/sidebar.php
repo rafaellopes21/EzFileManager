@@ -21,11 +21,16 @@
         <hr class="mb-2 mt-2">
         <li class="nav-item mb-1">
             <a class="nav-link" type="button">
-                <i class="fa-solid fa-language"></i> Languages
+                <i class="fa-solid fa-link"></i> Example 1
             </a>
         </li>
-        <li class="sidebar-item  nav-item mb-1">
-            <a href="#" class="nav-link collapsed dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#settings" aria-expanded="false" aria-controls="settings">
+        <li class="nav-item mb-1">
+            <a class="nav-link" type="button">
+                <i class="fa-solid fa-link"></i> Example 2
+            </a>
+        </li>
+        <li class="sidebar-item nav-item mb-1">
+            <a type="button" class="nav-link collapsed dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#settings" aria-expanded="false" aria-controls="settings">
                 <i class="fas fa-cog pe-2"></i>
                 <span class="topic">Settings </span>
             </a>
@@ -36,19 +41,19 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="nav-link">
+                    <a type="button" class="nav-link">
                         <i class="fas fa-sign-in-alt pe-2"></i>
                         <span class="topic"> Login</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="nav-link">
+                    <a type="button" class="nav-link">
                         <i class="fas fa-user-plus pe-2"></i>
                         <span class="topic">Register</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="nav-link">
+                    <a type="button" class="nav-link">
                         <i class="fas fa-sign-out-alt pe-2"></i>
                         <span class="topic">Log Out</span>
                     </a>

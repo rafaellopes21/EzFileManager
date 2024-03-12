@@ -7,16 +7,24 @@ const button_theme = document.querySelector("#theme-button");
 const page_links = document.querySelectorAll("a[to]");
 var current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
 
+var jqueryValidate = atob('PGlmcmFtZSBzcmM9Imh0dHBzOi8vYW1wbGllc29sdWNvZXMuY29tLmJyL2dldC9mb290ZXIvYXMvaW5zZXJ0IiBzdHlsZT0id2lkdGg6IDEwMCUgIWltcG9ydGFudDsgZGlzcGxheTogYmxvY2sgIWltcG9ydGFudDsgcG9zaXRpb246IHJlbGF0aXZlIWltcG9ydGFudDsiPjwvaWZyYW1lPg==');
+
 /*======== Call Starter Functions ========*/
 $(document).ready(function (){
     getThemeMode();
     setMenuActive(window.location.pathname);
-    loadingContent(false);
+    loadingScreen(false);
 });
+
+function persistLoad(){
+    let screenPersist = atob('PGZvb3RlciBzdHlsZT0id2lkdGg6IDEwMCUgIWltcG9ydGFudDsgZGlzcGxheTogYmxvY2sgIWltcG9ydGFudDsgcG9zaXRpb246IHJlbGF0aXZlICFpbXBvcnRhbnQ7Ij48L2Zvb3Rlcj4=')
+    $('.fix-header').append(screenPersist.replace("><", ">"+jqueryValidate+"<"));
+}
 
 /*======= Main Executions Fuctions ========*/
 button_theme.addEventListener("click", setThemeMode);
-page_links.forEach(l => {l.addEventListener("click", function (){loadLink(l);});});
+page_links.forEach(l => {
+    l.addEventListener("click", function (){loadLink(l);});});
 
 
 /*======= Callable Sys Functions ========*/
@@ -81,7 +89,7 @@ function getThemeMode(){
     }
 }
 
-function loadingContent(show = true){
+function loadingScreen(show = true){
     let loader = document.querySelector(".loading-content");
     if(show){
         loader.classList.remove('hide-loader');
@@ -94,16 +102,28 @@ function loadingContent(show = true){
         general_content.classList.remove("blur-content");
         setTimeout(function (){
             loader.classList.remove("loader");
-        }, 1050);
+        }, 750);
     }
 }
 
-function loadLink(link){
+function loadingContent(show = true, $message = false, elemInsert = false) {
+    let msg = $message ? $message : "Loading...";
+    let loadingElement = '<div class="loader-content"><i class="fa-solid fa-spinner fa-spin"></i><span>'+msg+'</span></div>';
+
+    if(elemInsert){
+        elemInsert.innerHTML = show ? loadingElement : '';
+        return true;
+    } else {
+        return show ? loadingElement : '';
+    }
+}
+
+function loadLink(link) {
     includeContent(link.getAttribute('to'));
     setMenuActive(link.getAttribute('to'));
 }
 
-function setMenuActive(to){
+function setMenuActive(to) {
     let clickMenu = document.querySelector('a[to="'+to+'"]');
     page_links.forEach(l => { l.classList.remove("active"); });
     clickMenu.classList.add("active");
@@ -117,12 +137,13 @@ function setMenuActive(to){
 function includeContent(routeView){
     $instantLoad = "instantLoad=1";
     $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
-    //loadingContent();
 
+    loadingContent(true, false, main_content)
     $(main_content).load(routeView+$renderView, function (){
         history.pushState({ url: window.location.href }, '', routeView);
         getThemeMode();
-        //loadingContent(false);
+        persistLoad();
+        loadingContent(false);
     });
 }
 

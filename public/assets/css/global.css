@@ -88,7 +88,7 @@ html, body {
     }
 }
 
-/*=== Loader Animation ===*/
+/*=== Loadiang Animation ===*/
 .loader {
     z-index: 9999;
     position: fixed;
@@ -126,7 +126,20 @@ html, body {
     66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
     100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
 }
-
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.loader-content i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.loader-content span {
+    font-size: 14px;
+}
 
 /*=== General Styles ===*/
 .mobile-only{
