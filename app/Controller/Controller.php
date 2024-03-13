@@ -48,6 +48,7 @@ class Controller{
             $dataContent = $dataSecondView;
             $dataContent['main_content'] = $view;
             $dataContent['translation'] = str_replace('"', "'", json_encode(translate()));
+            $dataContent['translation_default'] = str_replace('"', "'", json_encode(defaultLanguageTranslate()));
             $dataContent['languages'] = EzFile::list(__DIR__."/../languages/", true);
             sort($dataContent['languages']);
             return self::render('index', $dataContent);

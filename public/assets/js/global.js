@@ -1,5 +1,6 @@
 /*==== Constants and Global Declarations ====*/
 const language = JSON.parse((document.querySelector('#sys_lang').value).replace(/'/g, '"'));
+const languageDefault = JSON.parse((document.querySelector('#sys_lang_default').value).replace(/'/g, '"'));
 const navbar = document.querySelector("#main-navbar");
 const sidebar = document.querySelector("#bdSidebar");
 const main_content = document.querySelector("#main-content");
@@ -38,7 +39,7 @@ document.querySelectorAll(".lang-selection").forEach(l => {
 
 /*======= Callable Sys Functions ========*/
 function translate(key){
-    return language[key];
+    return language[key] ?? languageDefault[key];
 }
 
 function changeLanguage(e){

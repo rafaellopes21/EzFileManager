@@ -1,5 +1,6 @@
 <?php ?>
 <input hidden id="sys_lang" value="<?= $translation ?>">
+<input hidden id="sys_lang_default" value="<?= $translation_default ?>">
 <button type="button" id="notificationToastBtn" hidden></button>
 
 <div hidden id="default_titles">
