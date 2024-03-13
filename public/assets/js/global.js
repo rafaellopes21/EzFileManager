@@ -101,7 +101,7 @@ function loadingScreen(show = true){
 
 function loadingContent(show = true, $message = false, elemInsert = false) {
     let msg = $message ? $message : "Loading...";
-    let loadingElement = '<div class="loader-content"><i class="fa-solid fa-spinner fa-spin"></i><span>'+msg+'</span></div>';
+    let loadingElement = '<div class="loader-content" style="opacity: 1"><i class="fa-solid fa-spinner fa-spin"></i><span>'+msg+'</span></div>';
 
     if(elemInsert){
         elemInsert.innerHTML = show ? loadingElement : '';
@@ -134,12 +134,9 @@ function includeContent(routeView){
     loadingContent(true, false, main_content);
     $(main_content).load(routeView+$renderView, function (){
         history.pushState({ url: window.location.href }, '', routeView);
-        persist();
+        persist(main_content);
         getThemeMode();
         loadingContent(false);
-        /*
-        Criar um jeito de desativar o conteudo apenas quanto tudo estiver carregado
-         */
     });
 }
 
