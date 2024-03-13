@@ -1,10 +1,17 @@
 /*==== Constants and Global Declarations ====*/
+const language = JSON.parse((document.querySelector('#sys_lang').value).replace(/'/g, '"'));
 const navbar = document.querySelector("#main-navbar");
 const sidebar = document.querySelector("#bdSidebar");
 const main_content = document.querySelector("#main-content");
 const general_content = document.querySelector("#general-content");
 const button_theme = document.querySelector("#theme-button");
 const page_links = document.querySelectorAll("a[to]");
+const toastMessage = document.querySelector("#notificationToast");
+const TOAST_WARNING = "text-bg-warning";
+const TOAST_DANGER = "text-bg-danger";
+const TOAST_SUCCESS = "text-bg-success";
+const TOAST_INFO = "text-bg-info";
+const TOAST_HELP = "text-bg-primary";
 var current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
 
 /*======== Call Starter Functions ========*/
@@ -16,11 +23,29 @@ $(document).ready(function (){
 
 /*======= Main Executions Fuctions ========*/
 button_theme.addEventListener("click", setThemeMode);
-page_links.forEach(l => {
-    l.addEventListener("click", function (){loadLink(l);});});
 
+page_links.forEach(l => {
+    l.addEventListener("click", function (){loadLink(l);});
+});
+
+document.getElementById('notificationToastBtn').addEventListener('click', () => {
+    bootstrap.Toast.getOrCreateInstance(toastMessage).show();
+});
+
+document.querySelectorAll(".lang-selection").forEach(l => {
+    l.addEventListener("click", function (){changeLanguage(l);});
+});
 
 /*======= Callable Sys Functions ========*/
+function translate(key){
+    return language[key];
+}
+
+function changeLanguage(e){
+    let dataSend = {language: e.getAttribute('lang')+".json"};
+    request('/languages/change', 'post', dataSend, false, true);
+}
+
 function setThemeMode(){
     if(localStorage.getItem('user-theme') === 'dark'){
         localStorage.setItem('user-theme', 'light');
@@ -43,7 +68,7 @@ function getThemeMode(){
         themeIcon.classList.remove('fa-sun');
         themeIcon.classList.add('fa-moon');
 
-        themeText.innerText = "Theme Dark";
+        themeText.innerText = translate('navbar_theme_dark');
         main_content.classList.add('bg-body-tertiary');
 
         navbar.classList.remove('bg-light');
@@ -63,7 +88,7 @@ function getThemeMode(){
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
 
-        themeText.innerText = "Theme Light";
+        themeText.innerText = translate('navbar_theme_light');
         main_content.classList.remove('bg-body-tertiary');
 
         navbar.classList.add('bg-light');
@@ -127,6 +152,41 @@ function setMenuActive(to) {
     }
 }
 
+function sendNotification(type = TOAST_HELP, message = false){
+    let title = document.querySelector("#toast-title-txt");
+    let icon = title.previousElementSibling;
+    let msgBody = document.querySelector(".toast-body");
+        msgBody.innerHTML = "";
+
+    toastMessage.classList.forEach(className => {
+        if(className != "toast"){toastMessage.classList.remove(className);}}
+    );
+    toastMessage.children[0].classList.forEach(className => {
+        if(className != "toast-header"){toastMessage.children[0].classList.remove(className);}}
+    );
+
+    title.innerHTML = document.querySelector("#default-"+type).value;
+    switch (type){
+        case TOAST_WARNING: icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; break;
+        case TOAST_DANGER: icon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'; break;
+        case TOAST_SUCCESS: icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; break;
+        case TOAST_INFO: icon.innerHTML = '<i class="fa-solid fa-circle-info"></i>'; break;
+        case TOAST_HELP: icon.innerHTML = '<i class="fa-solid fa-circle-question"></i>'; break;
+    }
+
+    if(message){
+        msgBody.removeAttribute("hidden");
+        msgBody.innerHTML = message;
+    } else {
+        msgBody.setAttribute("hidden", "hidden");
+    }
+
+    toastMessage.classList.add(type);
+    toastMessage.children[0].classList.add(type);
+
+    document.querySelector("#notificationToastBtn").click();
+}
+
 function includeContent(routeView){
     $instantLoad = "instantLoad=1";
     $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
@@ -146,3 +206,48 @@ window.addEventListener('popstate', function (event) {
         includeContent(olrUrl);
     }
 });
+
+async function request(route, method = 'GET', data = false, showServerMessage = true, forceReload = false) {
+    try {
+        method = method.toUpperCase();
+        let options = {
+            method: method,
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        if(data){
+            if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+                options.body = JSON.stringify(data);
+            } else {
+                route += route.includes('?') ? '&' : '?';
+                route +=  Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
+            }
+        }
+
+        let response = await fetch(window.location.origin + route, options);
+
+        if (!response.ok) {
+            throw new Error(`Fetch Error: ${response.status} - ${response.statusText}`);
+        }
+
+        let jsonData = await response.json();
+        if(jsonData.error){
+            throw new Error(`Fetch Error: ${jsonData.status} - ${jsonData.message}`);
+        }
+
+        if(forceReload){
+            location.reload();
+        }
+
+        if(showServerMessage){
+            let msgType = jsonData.type ?? TOAST_HELP;
+            let msgText = jsonData.message ?? false;
+            sendNotification(msgType, msgText);
+        }
+
+        return jsonData;
+    } catch (error) {
+        console.error('Fail to Fetch Data:', error);
+        throw error;
+    }
+}

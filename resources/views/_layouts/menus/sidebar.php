@@ -15,7 +15,7 @@
     <ul class="mynav nav nav-pills flex-column mb-auto">
         <li class="nav-item mb-1">
             <a class="nav-link" type="button" to="/">
-                <i class="fa-solid fa-house"></i> Home
+                <i class="fa-solid fa-house"></i> <?= translate('sidebar_home'); ?>
             </a>
         </li>
         <hr class="mb-2 mt-2">
@@ -32,12 +32,12 @@
         <li class="sidebar-item nav-item mb-1">
             <a type="button" class="nav-link collapsed dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#settings" aria-expanded="false" aria-controls="settings">
                 <i class="fas fa-cog pe-2"></i>
-                <span class="topic">Settings </span>
+                <span class="topic"><?= translate('sidebar_settings'); ?></span>
             </a>
             <ul id="settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                 <li class="sidebar-item">
                     <a class="nav-link" type="button" to="/languages">
-                        <i class="fa-solid fa-language"></i> Languages
+                        <i class="fa-solid fa-language"></i> <?= translate('sidebar_languages'); ?>
                     </a>
                 </li>
                 <li class="sidebar-item">

@@ -10,18 +10,37 @@
                  light="assets/images/ez-filemanager-white-logo.png"
                  dark="assets/images/ez-filemanager-dark-logo.png">
         </a>
-        <ul class="ms-auto profile-menu">
+        <ul class="ms-auto profile-menu d-inline-flex">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" type="button" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" type="button" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="profile-pic"><img src="assets/images/user.png"></div>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Settings</a></li>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Exemplo 1</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Exemplo 2</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
+                        <div class="dropdown dropstart">
+                            <a class="dropdown-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.stopPropagation()">
+                                <i class="fa-solid fa-language fa-fw"></i>
+                                <?= translate('navbar_language'); ?>
+                                <b><?= strtoupper(substr((strtolower($_SESSION['SYS_LANG_NAME']) == "default" ? "english" : $_SESSION['SYS_LANG_NAME']), 0, 3)) ?></b>
+                            </a>
+                            <ul class="dropdown-menu overflow-y-auto" style="max-height: 400px;top: -60px;">
+                                <?php foreach ($languages as $l){
+                                    $l = explode(".", strtolower(explode("//", $l)[1]))[0];
+                                    if($l != "default"){
+                                        echo '<li><a class="dropdown-item lang-selection" type="button" lang="'.$l.'">'.ucfirst($l).'</a></li>';
+                                    }
+                                } ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item lang-selection" type="button" lang="default"><?= translate('navbar_language_default'); ?></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
                         <a class="dropdown-item" type="button" id="theme-button">
-                            <i class="fa-solid fa-sun fa-fw"></i> <span>Theme Light</span>
+                            <i class="fa-solid fa-sun fa-fw"></i> <span></span>
                         </a>
                     </li>
                 </ul>

@@ -54,6 +54,7 @@ html, body {
     width: 40px;
     overflow: hidden;
     border-radius: 50%;
+    margin-right: -9px;
 }
 .profile-pic img, .profile-pic i{
     width: 100%;
@@ -88,7 +89,15 @@ html, body {
     }
 }
 
-/*=== Loadiang Animation ===*/
+/*======= Breadcrumb =======*/
+li.breadcrumb-item{
+    cursor: pointer;
+}
+li.breadcrumb-item:hover{
+    text-decoration: underline;
+}
+
+/*=== Loading Animation ===*/
 .loader {
     z-index: 9999;
     position: fixed;

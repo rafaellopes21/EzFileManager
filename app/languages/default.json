@@ -1,0 +1,14 @@
+{
+  "notification_success": "Success",
+  "notification_warning": "Attention",
+  "notification_danger": "Error",
+  "notification_info": "Info",
+  "notification_help": "Tip",
+  "sidebar_home": "Home",
+  "sidebar_settings": "Settings",
+  "sidebar_languages": "Languages",
+  "navbar_language": "Language",
+  "navbar_language_default": "Default",
+  "navbar_theme_dark": "Theme Dark",
+  "navbar_theme_light": "Theme Light"
+}

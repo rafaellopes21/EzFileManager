@@ -1,0 +1,14 @@
+{
+  "notification_success": "Sucesso",
+  "notification_warning": "Atenção",
+  "notification_danger": "Erro",
+  "notification_info": "Informativo",
+  "notification_help": "Dica",
+  "sidebar_home": "Início",
+  "sidebar_settings": "Configurações",
+  "sidebar_languages": "Idiomas",
+  "navbar_language": "Idioma",
+  "navbar_language_default": "Padrão",
+  "navbar_theme_dark": "Tema Escuro",
+  "navbar_theme_light": "Tema Claro"
+}
