@@ -22,15 +22,14 @@
                     <li>
                         <div class="dropdown dropstart">
                             <a class="dropdown-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.stopPropagation()">
-                                <i class="fa-solid fa-language fa-fw"></i>
+                                <i class="fa-solid fa-globe fa-fw"></i>
                                 <?= translate('navbar_language'); ?>
                                 <b><?= strtoupper(substr((strtolower($_SESSION['SYS_LANG_NAME']) == "default" ? "english" : $_SESSION['SYS_LANG_NAME']), 0, 3)) ?></b>
                             </a>
-                            <ul class="dropdown-menu overflow-y-auto" style="max-height: 400px;top: -60px;">
+                            <ul class="dropdown-menu overflow-y-auto" <?= count($languages) > 0 ? "" : "hidden" ?> style="max-height: 400px;top: -60px;">
                                 <?php foreach ($languages as $l){
-                                    $l = explode(".", strtolower(explode("//", $l)[1]))[0];
-                                    if($l != "default"){
-                                        echo '<li><a class="dropdown-item lang-selection" type="button" lang="'.$l.'">'.ucfirst($l).'</a></li>';
+                                    if($l['file'] != "default"){
+                                        echo '<li><a class="dropdown-item lang-selection" type="button" lang="'.$l['file'].'">'.$l['description'].'</a></li>';
                                     }
                                 } ?>
                                 <li><hr class="dropdown-divider"></li>

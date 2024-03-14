@@ -5,13 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <title>EzFileManager</title>
     <link rel="icon" type="image/x-icon" href="assets/images/icon.png">
     <link href="assets/libs/boostrap/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/global.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/6ac77c14e0.js" crossorigin="anonymous"></script>
-
-    <title>EzFileManager</title>
 </head>
 <body>
     <?= import('_layouts/notification/toast'); ?>

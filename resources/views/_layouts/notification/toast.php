@@ -13,11 +13,11 @@
 
 <div class="toast-container position-fixed top-0 end-0 p-4">
     <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="8000">
-        <div class="toast-header" style="border-bottom: 1px solid #8383838a;">
+        <div class="toast-header" style="border-bottom: 1px solid #8383838a; font-size: 18px;">
             <span class="me-2"></span>
             <strong class="me-auto" id="toast-title-txt"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" style="background: #b1b1b13d !important;"></div>
+        <div class="toast-body" style="background: #b1b1b13d !important; font-size: 17px;"></div>
     </div>
 </div>

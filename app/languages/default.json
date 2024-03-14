@@ -4,11 +4,32 @@
   "notification_danger": "Error",
   "notification_info": "Info",
   "notification_help": "Tip",
+
   "sidebar_home": "Home",
   "sidebar_settings": "Settings",
   "sidebar_languages": "Languages",
-  "navbar_language": "Language",
+
+  "navbar_language": "Region",
   "navbar_language_default": "Default",
   "navbar_theme_dark": "Theme Dark",
-  "navbar_theme_light": "Theme Light"
+  "navbar_theme_light": "Theme Light",
+
+  "languages_description": "If you want to change the system language, you need to create a new one by filling in the form below or by click on account settings then select the desired region.",
+  "languages_pick_lang": "Pick a Language",
+  "languages_created_lang": "Created",
+  "languages_original": "Original Text",
+  "languages_translating": "Translate To",
+  "languages_translate_here": "Translate Here",
+  "languages_server_loaded": "Language loaded!",
+  "languages_server_file_fail": "Failed to create new file language",
+  "languages_server_file_create": "New language created!",
+  "languages_server_file_delete": "Language Deleted!",
+
+  "form_choose": "Choose...",
+  "form_required_title": "Required",
+  "form_required_msg": "Required fields must be filled!",
+  "form_submit": "Save",
+  "form_delete": "Delete",
+
+  "server_default_error": "Server Error"
 }

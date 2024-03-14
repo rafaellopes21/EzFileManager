@@ -11,22 +11,21 @@ class Controller{
     const MSG_SUCCESS = "text-bg-success";
     const MSG_INFO = "text-bg-info";
     const MSG_HELP = "text-bg-primary";
+    const LANG_PATH = __DIR__."/../languages/";
 
     public static function setSystemLanguage($checkLang = false){
         if($checkLang == "default.json"){
             $checkLang = false;
         }
 
-        $pathLang = __DIR__."/../languages/";
-
         if(isset($_SESSION['SYS_LANG']) && isset($_SESSION['SYS_LANG_NAME'])){
-            $_SESSION['SYS_LANG'] = json_decode(file_get_contents($pathLang.strtolower($_SESSION['SYS_LANG_NAME'].".json")));
+            $_SESSION['SYS_LANG'] = json_decode(file_get_contents(self::LANG_PATH.strtolower($_SESSION['SYS_LANG_NAME'].".json")));
         }
 
         if(!isset($_SESSION['SYS_LANG'])){
-            $language = file_get_contents($pathLang."default.json");
-            if($checkLang && file_exists($pathLang.$checkLang)){
-                $language = file_get_contents($pathLang.$checkLang);
+            $language = file_get_contents(self::LANG_PATH."default.json");
+            if($checkLang && file_exists(self::LANG_PATH.$checkLang)){
+                $language = file_get_contents(self::LANG_PATH.$checkLang);
             } else {
                 unset($_SESSION['SYS_LANG_NAME']);
             }
@@ -49,8 +48,7 @@ class Controller{
             $dataContent['main_content'] = $view;
             $dataContent['translation'] = str_replace('"', "'", json_encode(translate()));
             $dataContent['translation_default'] = str_replace('"', "'", json_encode(defaultLanguageTranslate()));
-            $dataContent['languages'] = EzFile::list(__DIR__."/../languages/", true);
-            sort($dataContent['languages']);
+            $dataContent['languages'] = self::getCreatedLanguages();
             return self::render('index', $dataContent);
         }
     }
@@ -58,6 +56,29 @@ class Controller{
     public static function render($view, $viewData = []){
         \Flight::set('flight.views.path', __DIR__.'/../../resources/views');
         return \Flight::render($view, $viewData);
+    }
+
+
+
+    public static function getCreatedLanguages($onlyCreated = true){
+        $currentLanguages = EzFile::list(self::LANG_PATH, true);
+
+        for($x = 0; $x < count($currentLanguages); $x++){
+            $lang = str_replace(self::LANG_PATH."/", "", $currentLanguages[$x]);
+            $currentLanguages[$x] = explode(".", $lang)[0];
+        }
+
+        if($onlyCreated){
+            $languagesCreated = [];
+            foreach (getAllCountries() as $country){
+                if(in_array($country['file'], $currentLanguages)){
+                    $languagesCreated[] = $country;
+                }
+            }
+            return $languagesCreated;
+        } else {
+            return $currentLanguages;
+        }
     }
 
     public function getData(){

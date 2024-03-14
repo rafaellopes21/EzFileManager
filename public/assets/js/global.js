@@ -1,6 +1,6 @@
 /*==== Constants and Global Declarations ====*/
-const language = JSON.parse((document.querySelector('#sys_lang').value).replace(/'/g, '"'));
-const languageDefault = JSON.parse((document.querySelector('#sys_lang_default').value).replace(/'/g, '"'));
+const language = getLanguagePattern('#sys_lang');
+const languageDefault = getLanguagePattern('#sys_lang_default');
 const navbar = document.querySelector("#main-navbar");
 const sidebar = document.querySelector("#bdSidebar");
 const main_content = document.querySelector("#main-content");
@@ -8,11 +8,11 @@ const general_content = document.querySelector("#general-content");
 const button_theme = document.querySelector("#theme-button");
 const page_links = document.querySelectorAll("a[to]");
 const toastMessage = document.querySelector("#notificationToast");
-const TOAST_WARNING = "text-bg-warning";
-const TOAST_DANGER = "text-bg-danger";
-const TOAST_SUCCESS = "text-bg-success";
-const TOAST_INFO = "text-bg-info";
-const TOAST_HELP = "text-bg-primary";
+const MSG_WARNING = "text-bg-warning";
+const MSG_DANGER = "text-bg-danger";
+const MSG_SUCCESS = "text-bg-success";
+const MSG_INFO = "text-bg-info";
+const MSG_HELP = "text-bg-primary";
 var current_theme = localStorage.getItem('user-theme') ? localStorage.getItem('user-theme') : 'light';
 
 /*======== Call Starter Functions ========*/
@@ -37,13 +37,28 @@ document.querySelectorAll(".lang-selection").forEach(l => {
     l.addEventListener("click", function (){changeLanguage(l);});
 });
 
+window.addEventListener('popstate', function (event) {
+    let olrUrl = window.location.pathname;
+    if (olrUrl && olrUrl != "" && olrUrl != " ") {
+        setMenuActive(olrUrl);
+        includeContent(olrUrl);
+    }
+});
+
 /*======= Callable Sys Functions ========*/
 function translate(key){
     return language[key] ?? languageDefault[key];
 }
 
-function changeLanguage(e){
-    let dataSend = {language: e.getAttribute('lang')+".json"};
+function getLanguagePattern(element){
+    let dom = document.querySelector(element);
+    let lang = JSON.parse((dom.value).replace(/'/g, '"'));
+    dom.remove();
+    return lang;
+}
+
+function changeLanguage(e, forceChange){
+    let dataSend = {language: (e ? e.getAttribute('lang') : forceChange)+".json"};
     request('/languages/change', 'post', dataSend, false, true);
 }
 
@@ -153,7 +168,7 @@ function setMenuActive(to) {
     }
 }
 
-function sendNotification(type = TOAST_HELP, message = false){
+function sendNotification(type = MSG_HELP, message = false){
     let title = document.querySelector("#toast-title-txt");
     let icon = title.previousElementSibling;
     let msgBody = document.querySelector(".toast-body");
@@ -168,11 +183,11 @@ function sendNotification(type = TOAST_HELP, message = false){
 
     title.innerHTML = document.querySelector("#default-"+type).value;
     switch (type){
-        case TOAST_WARNING: icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; break;
-        case TOAST_DANGER: icon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'; break;
-        case TOAST_SUCCESS: icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; break;
-        case TOAST_INFO: icon.innerHTML = '<i class="fa-solid fa-circle-info"></i>'; break;
-        case TOAST_HELP: icon.innerHTML = '<i class="fa-solid fa-circle-question"></i>'; break;
+        case MSG_WARNING: icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; break;
+        case MSG_DANGER: icon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'; break;
+        case MSG_SUCCESS: icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; break;
+        case MSG_INFO: icon.innerHTML = '<i class="fa-solid fa-circle-info"></i>'; break;
+        case MSG_HELP: icon.innerHTML = '<i class="fa-solid fa-circle-question"></i>'; break;
     }
 
     if(message){
@@ -197,31 +212,123 @@ function includeContent(routeView){
         history.pushState({ url: window.location.href }, '', routeView);
         persist(main_content);
         getThemeMode();
-        loadingContent(false);
     });
 }
 
-window.addEventListener('popstate', function (event) {
-    let olrUrl = window.location.pathname;
-    if (olrUrl && olrUrl != "" && olrUrl != " ") {
-        includeContent(olrUrl);
+function fieldValidate(field){
+    let valid = "is-valid";
+    let invalid = "is-invalid";
+
+    switch (field.nodeName.toLowerCase()){
+        case 'select':
+            let valSelected = Array.from(field.options).some(option => option.selected);
+            if(valSelected && !field.options[field.selectedIndex].hasAttribute('hidden')){
+                field.classList.remove(invalid);
+                field.classList.add(valid);
+                return true;
+            } else {
+                field.classList.remove(valid);
+                if(field.required){
+                    field.classList.add(invalid);
+                    return false;
+                }
+                return true;
+            }
+
+        default:
+            if(field.value.trim() && field.value.trim().length > 0){
+                field.classList.remove(invalid);
+                field.classList.add(valid);
+                return true;
+            } else {
+                field.classList.remove(valid);
+                if(field.required){
+                    field.classList.add(invalid);
+                    return false;
+                }
+                return true;
+            }
     }
-});
+}
+
+function formValidate(){
+    document.querySelectorAll(".form-validator").forEach(form => {
+        form.addEventListener("submit", function (event){
+            event.preventDefault();
+
+            let isValid = true;
+            form.querySelectorAll('[required]').forEach(field => {
+                isValid = fieldValidate(field);
+            });
+
+            if(isValid){
+                let submitButton = form.querySelector('[type="submit"]');
+                if(submitButton){ submitButton.disabled = true; }
+
+                form.querySelectorAll('.is_invalid').forEach(field => {
+                    fieldValidate(field);
+                });
+
+                let formData = new FormData(form);
+                request(form.getAttribute("action"), form.getAttribute("method"), formData).then(data => {
+                    if(data.response && data.response.new_lang){
+                        changeLanguage(false, data.response.new_lang);
+                    }
+                });
+            } else {
+                sendNotification(MSG_WARNING, translate('form_required_msg'))
+                let firstInvalidField = form.querySelector('.is-invalid');
+                if (firstInvalidField) {
+                    firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        form.querySelectorAll("input, select, textarea").forEach(field => {
+            let fieldType = field.tagName.toLowerCase();
+
+            if (fieldType === "input" || fieldType === "textarea") {
+                field.addEventListener("blur", function (){
+                    fieldValidate(field);
+                });
+            }
+
+            if (fieldType === "select") {
+                field.addEventListener("change", function (){
+                    fieldValidate(field);
+                });
+            }
+
+            if(field.required && field.previousElementSibling){
+                field.previousElementSibling.title = translate('form_required_title');
+                field.previousElementSibling.insertAdjacentHTML("beforeend",
+                    '<span class="ms-1 text-danger">*</span>'
+                );
+            }
+        });
+    });
+}
 
 async function request(route, method = 'GET', data = false, showServerMessage = true, forceReload = false) {
     try {
+        loadingScreen();
         method = method.toUpperCase();
         let options = {
-            method: method,
-            headers: { 'Content-Type': 'application/json' }
+            method: method
         };
 
-        if(data){
-            if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
-                options.body = JSON.stringify(data);
-            } else {
-                route += route.includes('?') ? '&' : '?';
-                route +=  Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
+        // Se os dados são do tipo FormData, ajuste os cabeçalhos
+        if (data instanceof FormData) {
+            options.body = data;
+        } else {
+            options.headers = { 'Content-Type': 'application/json' };
+            if (data) {
+                if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+                    options.body = JSON.stringify(data);
+                } else {
+                    route += route.includes('?') ? '&' : '?';
+                    route += Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
+                }
             }
         }
 
@@ -232,6 +339,7 @@ async function request(route, method = 'GET', data = false, showServerMessage = 
         }
 
         let jsonData = await response.json();
+
         if(jsonData.error){
             throw new Error(`Fetch Error: ${jsonData.status} - ${jsonData.message}`);
         }
@@ -240,8 +348,10 @@ async function request(route, method = 'GET', data = false, showServerMessage = 
             location.reload();
         }
 
-        if(showServerMessage){
-            let msgType = jsonData.type ?? TOAST_HELP;
+        loadingScreen(false);
+
+        if(showServerMessage && jsonData.type){
+            let msgType = jsonData.type ?? MSG_HELP;
             let msgText = jsonData.message ?? false;
             sendNotification(msgType, msgText);
         }
@@ -249,6 +359,7 @@ async function request(route, method = 'GET', data = false, showServerMessage = 
         return jsonData;
     } catch (error) {
         console.error('Fail to Fetch Data:', error);
+        loadingScreen(false);
         throw error;
     }
 }
