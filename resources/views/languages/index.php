@@ -1,9 +1,7 @@
 <?php ?>
 <?= import('_layouts/menus/header'); ?>
 
-<div class="mb-4">
-    <p><?= translate('languages_description') ?></p>
-</div>
+<div class="mb-4"><p><?= translate('languages_description') ?></p></div>
 
 <form method="post" enctype="multipart/form-data" class="form-validator" action="/languages/create">
    <div class="row">
