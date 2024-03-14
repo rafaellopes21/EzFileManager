@@ -41,9 +41,10 @@ php -S 127.0.0.1:8001 -t public
 *Recommended to start the project with "composer start", because is more simple*
 
 ## (Optional) Enable Database and Users
-If you want to use *EzFileManager* with all resources and database, you will need to enable the following extension below in your *php.ini* file:
+If you want to use *EzFileManager* with all resources and database, you will need to enable the following extensions below in your *php.ini* file:
 ```
 - pdo_sqlite
+- sqlite3
 ```
 
 ## (Optional) Increase upload size

@@ -1,4 +1,12 @@
 <?php
+use App\helpers\Database as DB;
+if(in_array("pdo_sqlite", get_loaded_extensions()) && in_array("sqlite3", get_loaded_extensions())){
+    new \App\helpers\Database();
+} else {
+    unset($_SESSION['hasDatabase']);
+}
+var_dump(DB::query());die;
+
 function defaultLanguageTranslate($forceGetDefault = false){
     $langFile = $forceGetDefault ? $forceGetDefault.".json" : strtolower("default.json");
     return json_decode(file_get_contents(__DIR__."/../languages/".$langFile));
