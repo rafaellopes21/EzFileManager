@@ -41,6 +41,11 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="nav-link <?= enableFeature('/user'); ?>" type="button" to="/user">
+                        <i class="fa-solid fa-user"></i> <?= translate('sidebar_user'); ?>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a type="button" class="nav-link">
                         <i class="fas fa-sign-in-alt pe-2"></i>
                         <span class="topic"> Login</span>

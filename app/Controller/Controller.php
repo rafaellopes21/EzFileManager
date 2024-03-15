@@ -19,7 +19,13 @@ class Controller{
         }
 
         if(isset($_SESSION['SYS_LANG']) && isset($_SESSION['SYS_LANG_NAME'])){
-            $_SESSION['SYS_LANG'] = json_decode(file_get_contents(self::LANG_PATH.strtolower($_SESSION['SYS_LANG_NAME'].".json")));
+            $langFile = self::LANG_PATH.strtolower($_SESSION['SYS_LANG_NAME'].".json");
+            if(!EzFile::exists($langFile, true)){
+                unset($_SESSION['SYS_LANG']);
+                unset($_SESSION['SYS_LANG_NAME']);
+            } else {
+                $_SESSION['SYS_LANG'] = json_decode(file_get_contents($langFile));
+            }
         }
 
         if(!isset($_SESSION['SYS_LANG'])){
@@ -39,6 +45,11 @@ class Controller{
     }
 
     public static function view($view, $dataSecondView = []) {
+        if(isset($_SESSION['sendNotification'])){
+            $dataSecondView['sendNotification'] = $_SESSION['sendNotification'];
+            unset($_SESSION['sendNotification']);
+        }
+
         if(isset($_GET['instantLoad'])){
             unset($_GET['instantLoad']);
             return self::render($view, $dataSecondView);
@@ -58,7 +69,21 @@ class Controller{
         return \Flight::render($view, $viewData);
     }
 
+    public static function redirect($route = false, $msgType = false, $msg = false){
+        $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
+        if(!$route && isset($_SERVER['HTTP_REFERER'])) {
+            $route = $_SERVER['HTTP_REFERER'];
+        }
+
+        if($msg){ self::sendNotification($msgType ? $msgType : self::MSG_WARNING, $msg); }
+        header("Location: ".$actual_link.$route);
+        die;
+    }
+
+    public static function sendNotification($type = self::MSG_WARNING, $message = false){
+        $_SESSION['sendNotification'] = ['type' => $type, 'message' => $message];
+    }
 
     public static function getCreatedLanguages($onlyCreated = true){
         $currentLanguages = EzFile::list(self::LANG_PATH, true);

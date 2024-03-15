@@ -3,10 +3,18 @@
 $route = Flight::router();
 
 $route->get('/', [new \App\Controller\ManagerController(), 'index']);
-$route->get('/languages', [new \App\Controller\LanguagesController(), 'index']);
-$route->post('/languages/change', [new \App\Controller\LanguagesController(), 'change']);
-$route->post('/languages/pick', [new \App\Controller\LanguagesController(), 'pick']);
-$route->post('/languages/create', [new \App\Controller\LanguagesController(), 'create']);
-$route->post('/languages/delete', [new \App\Controller\LanguagesController(), 'delete']);
+
+$route->group('/languages', function () use ($route){
+    $route->get('/', [new \App\Controller\LanguagesController(), 'index']);
+    $route->post('/change', [new \App\Controller\LanguagesController(), 'change']);
+    $route->post('/pick', [new \App\Controller\LanguagesController(), 'pick']);
+    $route->post('/create', [new \App\Controller\LanguagesController(), 'create']);
+    $route->post('/delete', [new \App\Controller\LanguagesController(), 'delete']);
+});
+
+$route->group('/user', function () use ($route){
+    $route->get('/', [new \App\Controller\UserController(), 'index']);
+});
+
 
 Flight::start();

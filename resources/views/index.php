@@ -25,5 +25,12 @@
     <script src="assets/libs/boostrap/bootstrap.min.js"></script>
     <script src="assets/libs/jquery/jquery-3.7.1.min.js"></script>
     <script src="assets/js/global.js"></script>
+    <?php
+    if(isset($sendNotification)){ ?>
+        <script id="auto-message-destroy">
+            sendNotification('<?= $sendNotification['type']; ?>', '<?= $sendNotification['message']; ?>');
+            document.querySelector("#auto-message-destroy").remove();
+        </script>
+    <?php }?>
 </body>
 </html>

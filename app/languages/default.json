@@ -8,6 +8,7 @@
   "sidebar_home": "Home",
   "sidebar_settings": "Settings",
   "sidebar_languages": "Languages",
+  "sidebar_user": "User",
 
   "navbar_language": "Region",
   "navbar_language_default": "Default",
@@ -31,5 +32,6 @@
   "form_submit": "Save",
   "form_delete": "Delete",
 
-  "server_default_error": "Server Error"
+  "server_default_error": "Server Error",
+  "server_redirect_feature": "To use this feature, you need to enable the extensions: `pdo_sqlite` and `pdo_sqlite3`."
 }

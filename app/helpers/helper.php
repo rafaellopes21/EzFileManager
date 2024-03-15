@@ -5,7 +5,6 @@ if(in_array("pdo_sqlite", get_loaded_extensions()) && in_array("sqlite3", get_lo
 } else {
     unset($_SESSION['hasDatabase']);
 }
-var_dump(DB::query());die;
 
 function defaultLanguageTranslate($forceGetDefault = false){
     $langFile = $forceGetDefault ? $forceGetDefault.".json" : strtolower("default.json");
@@ -26,6 +25,25 @@ function translate($language_key = false){
 
 function import($view, $viewData = []){
     return \App\Controller\Controller::render($view, $viewData);
+}
+
+function enableFeature($disableControl = false){
+    $features = [
+        "/user",
+    ];
+
+    $linkUrl = $disableControl ? $disableControl : $_SERVER['REQUEST_URI'];
+    $linkUrl = strpos($linkUrl, "?") !== false ? explode("?", $linkUrl)[0] : $linkUrl;
+
+    if(in_array($linkUrl, $features)){
+        if($disableControl){
+            return DB::isEnabled() ? "" : "disabled";
+        } else {
+            return DB::isEnabled();
+        }
+    }
+
+    return true;
 }
 
 function getAllCountries(){
