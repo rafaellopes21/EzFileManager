@@ -1,4 +1,46 @@
 {
+    "name": "amplie-solucoes/ezfile",
+    "description": "Easy and Simple Filemanager UI OpenSource",
+    "type": "library",
+    "license": "MIT",
+    "homepage":    "https://ampliesolucoes.com.br",
+    "keywords": [
+        "file manager",
+        "php file management",
+        "directory manipulation",
+        "file handling",
+        "php library",
+        "library",
+        "lib",
+        "open source",
+        "open source project",
+        "composer",
+        "php development",
+        "web development",
+        "file organization",
+        "code management",
+        "utility library",
+        "php utilities",
+        "development tools",
+        "filesystem operations",
+        "php file manager",
+        "file manager",
+        "media manger",
+        "upload",
+        "filemanager",
+        "file",
+        "directory",
+        "folder",
+        "manager",
+        "file upload"
+    ],
+    "authors": [
+        {
+            "name": "Amplie Soluções",
+            "email": "contato@ampliesolucoes.com.br"
+        }
+    ],
+    "version": "1.0.3",
     "require": {
         "flightphp/core": "^3.6",
         "amplie-solucoes/ezfile": "^1.0"
