@@ -9,10 +9,23 @@
           <label for="allLanguagesSelect"><?= translate('languages_pick_lang') ?></label>
           <select class="form-select" id="allLanguagesSelect" name="language_name" required onchange="loadTranslator(this.value)">
               <option hidden><?= translate('form_choose') ?></option>
-              <?php foreach($allLanguages as $showLang){
-                  $exist = in_array($showLang['file'], $currentLanguages) ? " (".translate('languages_created_lang').")" : "";
-                  echo '<option value="'.$showLang['file'].'">'.$showLang['description'].$exist.'</option>';
+              <?php if(count($currentLanguages) > 1) {
+                    echo '<optgroup label="'.translate('languages_created_lang').'">';
+                      foreach($allLanguages as $showLang){
+                          if(in_array($showLang['file'], $currentLanguages)){
+                              echo '<option value="'.$showLang['file'].'">'.$showLang['description'].'</option>';
+                          }
+                      }
+                    echo '</optgroup>';
               }?>
+
+              <optgroup label="<?= translate('languages_other_lang') ?>">
+                  <?php foreach($allLanguages as $showLang){
+                      if(!in_array($showLang['file'], $currentLanguages)){
+                          echo '<option value="'.$showLang['file'].'">'.$showLang['description'].'</option>';
+                      }
+                  }?>
+              </optgroup>
           </select>
       </div>
    </div>

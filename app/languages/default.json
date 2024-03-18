@@ -5,6 +5,11 @@
   "notification_info": "Info",
   "notification_help": "Tip",
 
+  "login_username": "Username",
+  "login_password": "Password",
+  "login_login": "Login",
+  "login_error_login": "User or Password are wrong.",
+
   "sidebar_home": "Home",
   "sidebar_settings": "Settings",
   "sidebar_languages": "Languages",
@@ -14,10 +19,12 @@
   "navbar_language_default": "Default",
   "navbar_theme_dark": "Theme Dark",
   "navbar_theme_light": "Theme Light",
+  "navbar_logout": "Logout",
 
   "languages_description": "If you want to change the system language, you need to create a new one by filling in the form below or by click on account settings then select the desired region.",
   "languages_pick_lang": "Pick a Language",
   "languages_created_lang": "Created",
+  "languages_other_lang": "Other Languages",
   "languages_original": "Original Text",
   "languages_translating": "Translate To",
   "languages_translate_here": "Translate Here",

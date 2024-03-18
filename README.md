@@ -47,6 +47,12 @@ If you want to use *EzFileManager* with all resources and database, you will nee
 - sqlite3
 ```
 
+- Once you activated the database, you'll need an user to login and create new users, administrate the system and other stuffs:
+
+| USER  | PASSWORD |
+|-------|----------|
+| admin | admin    |
+
 ## (Optional) Increase upload size
 If you need to work with handling files that will be large in size, make sure to change the following parameters in your *php.ini* file:
 ```

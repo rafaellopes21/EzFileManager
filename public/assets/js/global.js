@@ -20,6 +20,7 @@ $(document).ready(function (){
     getThemeMode();
     setMenuActive(window.location.pathname);
     loadingScreen(false);
+    revalidateFunctions();
 });
 
 /*======= Main Executions Fuctions ========*/
@@ -212,7 +213,12 @@ function includeContent(routeView){
         history.pushState({ url: window.location.href }, '', routeView);
         persist(main_content);
         getThemeMode();
+        revalidateFunctions();
     });
+}
+
+function revalidateFunctions(){
+    formValidate();
 }
 
 function fieldValidate(field){

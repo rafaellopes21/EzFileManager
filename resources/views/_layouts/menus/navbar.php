@@ -17,7 +17,6 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                     <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Exemplo 1</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Exemplo 2</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <div class="dropdown dropstart">
@@ -42,6 +41,8 @@
                             <i class="fa-solid fa-sun fa-fw"></i> <span></span>
                         </a>
                     </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="bg-danger"><a class="dropdown-item text-white bg-danger" href="/logout"><i class="fa-solid fa-right-from-bracket fa-fw"></i> <?= translate('navbar_logout'); ?></a></li>
                 </ul>
             </li>
         </ul>

@@ -1,13 +1,6 @@
-const deleteButton = document.querySelector("#deleteLangButton");
-
-/*======= Main Executions Fuctions ========*/
-document.addEventListener('DOMContentLoaded', function() {
-    formValidate();
-});
-
-/*======= Callable Lang Functions ========*/
 function loadTranslator(lang){
     request('/languages/pick', 'post', {lang: lang}).then(data => {
+       let deleteButton = document.querySelector("#deleteLangButton");
        if(data.response){
            if(Object.keys(data.response).length > 0){
                deleteButton.removeAttribute("hidden");

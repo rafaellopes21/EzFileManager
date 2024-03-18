@@ -1,8 +1,19 @@
 <?php
+
+use App\Controller\Controller;
 use App\helpers\Database as DB;
 if(in_array("pdo_sqlite", get_loaded_extensions()) && in_array("sqlite3", get_loaded_extensions())){
     new \App\helpers\Database();
+    if(!\App\Controller\UserController::user()){
+        if(strpos($_SERVER['REQUEST_URI'], "/login") !== false){
+            $user = new \App\Controller\UserController();
+            $user->login();
+        } else {
+            Controller::redirect("/login");
+        }
+    }
 } else {
+    unset($_SESSION['auth']);
     unset($_SESSION['hasDatabase']);
 }
 
@@ -30,6 +41,7 @@ function import($view, $viewData = []){
 function enableFeature($disableControl = false){
     $features = [
         "/user",
+        "/login",
     ];
 
     $linkUrl = $disableControl ? $disableControl : $_SERVER['REQUEST_URI'];

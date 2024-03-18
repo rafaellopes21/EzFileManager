@@ -16,5 +16,11 @@ $route->group('/user', function () use ($route){
     $route->get('/', [new \App\Controller\UserController(), 'index']);
 });
 
+$route->group('/login', function () use ($route){
+    $route->get('/', [new \App\Controller\UserController(), 'login']);
+    $route->post('/', [new \App\Controller\UserController(), 'login']);
+});
+$route->get('/logout', [new \App\Controller\UserController(), 'logout']);
+
 
 Flight::start();
