@@ -38,10 +38,11 @@ function import($view, $viewData = []){
     return \App\Controller\Controller::render($view, $viewData);
 }
 
-function enableFeature($disableControl = false){
+function enableFeature($disableControl = false, $forceHidden = false){
     $features = [
         "/user",
         "/login",
+        "/logout",
     ];
 
     $linkUrl = $disableControl ? $disableControl : $_SERVER['REQUEST_URI'];
@@ -49,7 +50,8 @@ function enableFeature($disableControl = false){
 
     if(in_array($linkUrl, $features)){
         if($disableControl){
-            return DB::isEnabled() ? "" : "disabled";
+            $elementReturn = $forceHidden ? "hidden" : "disabled";
+            return DB::isEnabled() ? "" : $elementReturn;
         } else {
             return DB::isEnabled();
         }

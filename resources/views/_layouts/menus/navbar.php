@@ -41,8 +41,12 @@
                             <i class="fa-solid fa-sun fa-fw"></i> <span></span>
                         </a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li class="bg-danger"><a class="dropdown-item text-white bg-danger" href="/logout"><i class="fa-solid fa-right-from-bracket fa-fw"></i> <?= translate('navbar_logout'); ?></a></li>
+                    <li <?= enableFeature('/logout', true); ?>><hr class="dropdown-divider"></li>
+                    <li <?= enableFeature('/logout', true); ?> class="bg-danger">
+                        <a class="dropdown-item text-white bg-danger" href="/logout">
+                            <i class="fa-solid fa-right-from-bracket fa-fw"></i> <?= translate('navbar_logout'); ?>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
