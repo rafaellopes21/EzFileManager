@@ -14,6 +14,7 @@ $route->group('/languages', function () use ($route){
 
 $route->group('/user', function () use ($route){
     $route->get('/', [new \App\Controller\UserController(), 'index']);
+    $route->post('/update', [new \App\Controller\UserController(), 'update']);
 });
 
 $route->group('/login', function () use ($route){

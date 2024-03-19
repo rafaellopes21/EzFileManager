@@ -29,3 +29,10 @@ function deleteLanguage(){
         }
     });
 }
+
+function langUpdate(...args){
+    let request = args[0] ?? null;
+    if(request.response.response && request.response.response.new_lang){
+        changeLanguage(false, request.response.response.new_lang);
+    }
+}

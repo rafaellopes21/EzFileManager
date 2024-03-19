@@ -277,9 +277,17 @@ function formValidate(){
 
                 let formData = new FormData(form);
                 request(form.getAttribute("action"), form.getAttribute("method"), formData).then(data => {
-                    if(data.response && data.response.new_lang){
-                        changeLanguage(false, data.response.new_lang);
+                    if(data.response){
+                        let execFunc = form.getAttribute("exec");
+                        if (execFunc && data.response && typeof window[execFunc] === 'function') {
+                            window[execFunc]({
+                                form: form,
+                                formData: Object.fromEntries(formData.entries()),
+                                response: data,
+                            });
+                        }
                     }
+                    submitButton.disabled = false;
                 });
             } else {
                 sendNotification(MSG_WARNING, translate('form_required_msg'))

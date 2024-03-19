@@ -49,8 +49,15 @@
         </li>
     </ul>
     <hr>
-    <div class="d-flex">
-        <i class="fa-solid fa-book me-2"></i>
-        <span><h6 class="mt-1 mb-0">OpenSource FileManager</h6></span>
+    <div class="mb-2">
+        <p class="mb-1" style="font-size: 14px">5 GB / 15 GB</p>
+        <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
+            <div class="progress-bar" style="width: 25%"></div>
+        </div>
+    </div>
+    <div class="d-flex" style="margin: 0 auto">
+        <a class="mt-1 mb-0 text-decoration-none" href="https://github.com/rafaellopes21/EzFileManager" target="_blank" style="color: initial">
+            <i class="fa-solid fa-book me-2"></i> OpenSource FileManager
+        </a>
     </div>
 </div>

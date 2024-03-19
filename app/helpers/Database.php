@@ -59,6 +59,7 @@ class Database{
         $pdo->exec(
             "CREATE TABLE IF NOT EXISTS settings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NULL,
             storage_limit TEXT,
             expire_date DATE NULL
         )");
@@ -76,6 +77,10 @@ class ZQuery{
 
     public function first($pdoType = \PDO::FETCH_ASSOC){
         return $this->sql ? $this->sql->fetch($pdoType) : false;
+    }
+
+    public function count($pdoType = \PDO::FETCH_ASSOC){
+        return $this->sql ? count($this->sql->fetchAll($pdoType)) : false;
     }
 
     public function get($pdoType = \PDO::FETCH_ASSOC){
