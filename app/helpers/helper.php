@@ -60,6 +60,10 @@ function enableFeature($disableControl = false, $forceHidden = false){
     return true;
 }
 
+function sizer($n, $raw = false){
+    return \AmplieSolucoes\EzFile\EzFile::sizeUnitFormatter($n, \AmplieSolucoes\EzFile\EzFile::UNIT_GIGABYTES);
+}
+
 function getAllCountries(){
     return [
         ['file' => 'afghanistan', 'description' => 'Afghanistan'],

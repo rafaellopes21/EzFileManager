@@ -40,14 +40,27 @@
                     <div class="row">
                         <div class="col-sm-3"><p class="mb-0 mt-1">My Storage</p></div>
                         <div class="col-sm-9">
-                            <input class="form-control text-muted editable-field" aria-label="" readonly required
-                                   original="<?= $user['storage_limit'] ?? "Unlimited" ?>"
-                                   name="storage_limit" id="storage_limit" value="<?= $user['storage_limit'] ?? "Unlimited" ?>">
+                            <select class="form-select text-muted editable-field" id="storage_limit" name="storage_limit"
+                                    original="<?= $user['storage_limit'] ?? "Unlimited" ?>" readonly required>
+                                    <option value="Unlimited"><?= translate('user_unlimited_storage') ?></option>
+                                    <option value="<?= sizer(5) ?>"><?= sizer(5) ?></option>
+                                    <option value="<?= sizer(10) ?>"><?= sizer(10) ?></option>
+                                    <option value="<?= sizer(25) ?>"><?= sizer(25) ?></option>
+                                    <option value="<?= sizer(50) ?>"><?= sizer(50) ?></option>
+                                    <option value="<?= sizer(100) ?>"><?= sizer(100) ?></option>
+                                    <option value="<?= sizer(250) ?>"><?= sizer(250) ?></option>
+                                    <option value="<?= sizer(500) ?>"><?= sizer(500) ?></option>
+                                    <option value="<?= sizer(1000) ?>"><?= sizer(1000) ?></option>
+                                    <option value="<?= sizer(2000) ?>"><?= sizer(2000) ?></option>
+                                    <option value="<?= sizer(4000) ?>"><?= sizer(4000) ?></option>
+                                    <option value="<?= sizer(5000) ?>"><?= sizer(5000) ?></option>
+                                    <option value="<?= sizer(10000) ?>"><?= sizer(10000) ?></option>
+                            </select>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-3"><p class="mb-0 mt-1">Expire Date</p></div>
+                        <div class="col-sm-3"><p class="mb-0 mt-1">Expiration Date</p></div>
                         <div class="col-sm-9">
                             <input type="date" class="form-control text-muted editable-field" aria-label="" readonly required
                                    original="<?= $user['expire_date'] ?? "9999-12-31" ?>"
@@ -58,7 +71,7 @@
                     <div class="row">
                         <div class="col-sm-3"><p class="mb-0 mt-1">Password</p></div>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control text-muted" placeholder="*******" aria-label=""
+                            <input type="password" class="form-control text-muted editable-field" placeholder="*******" aria-label=""
                                    name="password" id="password" value="">
                         </div>
                     </div>

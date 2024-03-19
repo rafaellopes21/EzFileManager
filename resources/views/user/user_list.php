@@ -25,7 +25,7 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40">
                         <div>
                             <h5 class="fw-semibold mb-0"><?= ucwords($u['user']) ?></h5>
-                            <span class="d-flex align-items-center"><?= $u['storage_limit'] ?></span>
+                            <span class="d-flex align-items-center"><?= $u['storage_limit'] != "Unlimited" ? sizer($u['storage_usage'])." / ".$u['storage_limit'] : "Unlimited" ?></span>
                             <div class="progress mt-1 mb-2" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 3px">
                                 <div class="progress-bar" style="width: 25%"></div>
                             </div>

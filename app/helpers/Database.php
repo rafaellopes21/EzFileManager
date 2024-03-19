@@ -60,9 +60,15 @@ class Database{
             "CREATE TABLE IF NOT EXISTS settings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NULL,
+            storage_usage TEXT,
             storage_limit TEXT,
             expire_date DATE NULL
         )");
+
+        $pdo->exec(
+        "INSERT INTO settings (user_id, storage_usage, storage_limit, expire_date) 
+         SELECT 1, 0, 'Unlimited', '9999-12-31' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE user_id = 1)"
+        );
 
         return true;
     }

@@ -33,12 +33,14 @@
   "languages_server_file_create": "New language created!",
   "languages_server_file_delete": "Language Deleted!",
 
+  "user_unlimited_storage": "Unlimited",
   "user_create_user": "Create User",
   "user_update_admin": "My Account",
   "user_server_user_duplicated": "This user already exists.",
   "user_server_user_created": "New user has been created!",
   "user_server_user_updated": "The user has been updated!",
   "user_server_user_deleted": "The user has been deleted!",
+  "user_server_block_admin": "You can not do this action in admin Account!",
 
   "form_choose": "Choose...",
   "form_required_title": "Required",

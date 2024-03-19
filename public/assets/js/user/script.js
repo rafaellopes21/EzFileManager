@@ -15,7 +15,15 @@ function updateUser(...args){
             includeContent('/user/list', document.querySelector("#user_list"), false);
         }
     }
-    releaseUserFields(false);
+
+    setTimeout(function (){
+        releaseUserFields(false);
+        document.querySelectorAll(".editable-field").forEach(field => {
+            field.value = "";
+            field.classList.remove("is-valid");
+        });
+        document.querySelector("#editing_btn").click();
+    }, 250);
 }
 
 function createUser(e){
@@ -48,6 +56,7 @@ function loadUser(id){
     document.querySelector("#expire_date").value = user.expire_date;
     document.querySelector("#editing_btn").innerHTML = '<i class="fa-solid fa-user-plus"></i> '+translate('user_create_user');
     document.querySelector("#delete_user_btn").removeAttribute("hidden");
+    document.querySelector("#password").removeAttribute("required");
 }
 
 function releaseUserFields(release = true){
@@ -56,11 +65,11 @@ function releaseUserFields(release = true){
         if(release){
             field.removeAttribute("readonly");
             field.value = "";
-            if(field.id == 'password'){ field.removeAttribute("required"); }
+            if(field.id == 'password'){ field.setAttribute("required", "required"); }
         } else {
             field.setAttribute("readonly", "readonly");
             field.value = field.getAttribute("original");
-            if(field.id == 'password'){ field.setAttribute("required", "required"); }
+            if(field.id == 'password'){ field.removeAttribute("required"); }
         }
     });
 }

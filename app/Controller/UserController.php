@@ -29,7 +29,7 @@ class UserController extends Controller {
     }
 
     public function getUsersList(){
-        $cols = "u.*, s.id as settings_id, s.storage_limit, s.expire_date";
+        $cols = "u.*, s.id as settings_id, s.storage_usage, s.storage_limit, s.expire_date";
         return self::user()['id'] == self::ADMIN
             ? Database::query("SELECT $cols FROM users as u left JOIN settings as s ON u.id = s.user_id")->get()
             : [];
@@ -44,6 +44,10 @@ class UserController extends Controller {
         $password = md5($data['password']);
 
         if(isset($data['delete']) && $data['delete'] == 1){
+            if($data['id'] == self::ADMIN){
+                return $this->toJson($data, self::MSG_DANGER, translate('user_server_block_admin'));
+            }
+
             Database::query("DELETE FROM users WHERE id = '".$data['id']."'");
             Database::query("DELETE FROM settings WHERE user_id = '".$data['id']."'");
             $data['refreshing'] = true;
@@ -52,11 +56,7 @@ class UserController extends Controller {
 
         if(isset($data['edit'])){
             Database::query("UPDATE users SET user = '".strtolower($data['user'])."', password = '".$password."' WHERE id = '".$data['id']."'");
-            if(Database::query("SELECT * FROM settings WHERE user_id = '".$data['id']."'")->count() == 0){
-                Database::query("INSERT INTO settings (user_id, storage_limit, expire_date) VALUES ('".$data['id']."', '".$storageLimit."', '".$expireDate."')");
-            } else {
-                Database::query("UPDATE settings SET storage_limit = '".$storageLimit."', expire_date = '".$expireDate."' WHERE user_id = '".$data['id']."'");
-            }
+            Database::query("UPDATE settings SET storage_limit = '".$storageLimit."', expire_date = '".$expireDate."' WHERE user_id = '".$data['id']."'");
         } else {
             if($data['id'] == self::ADMIN){
                 if(Database::query("SELECT * FROM users WHERE user = '".strtolower($data['user'])."'")->count() > 0){
@@ -67,7 +67,7 @@ class UserController extends Controller {
 
                 $nextId = Database::query("SELECT MAX(id) as id FROM users")->first();
                 $nextId = $nextId['id'];
-                Database::query("INSERT INTO settings (user_id, storage_limit, expire_date) VALUES ('".$nextId."', '".$storageLimit."', '".$expireDate."')");
+                Database::query("INSERT INTO settings (user_id, storage_usage, storage_limit, expire_date) VALUES ('".$nextId."', '0', '".$storageLimit."', '".$expireDate."')");
 
                 $data['refreshing'] = true;
                 return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_created'));
