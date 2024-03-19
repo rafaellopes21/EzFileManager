@@ -204,14 +204,16 @@ function sendNotification(type = MSG_HELP, message = false){
     document.querySelector("#notificationToastBtn").click();
 }
 
-function includeContent(routeView){
+function includeContent(routeView, loadInto = main_content, cleanRefresh = true){
     $instantLoad = "instantLoad=1";
     $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
 
-    loadingContent(true, false, main_content);
-    $(main_content).load(routeView+$renderView, function (){
-        history.pushState({ url: window.location.href }, '', routeView);
-        persist(main_content);
+    loadingContent(true, false, loadInto);
+    $(loadInto).load(routeView+$renderView, function (){
+        if(cleanRefresh){
+            history.pushState({ url: window.location.href }, '', routeView);
+            persist(loadInto);
+        }
         getThemeMode();
         revalidateFunctions();
     });

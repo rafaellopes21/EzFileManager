@@ -1,7 +1,7 @@
 <?php ?>
 <?= import('_layouts/menus/header'); ?>
 <ol>
-    <li>Precisa criar um jeito de no validador de formulários executar funções que estejam fora, para tratativas externas</li>
+
     <li>Na tela de usuarios deverá conter as opções: mudar senha, foto de perfil, criar, remover, modificar, limitar espaço e data expiração (admin)</li>
     <li>Ao criar a pasta de onde os arquivos ficarão armazenados, deve-se criar a pasta fora da public</li>
     <li>A base de dados será opcional, entao se o usuario nao quiser, terá features limitadas.</li>
