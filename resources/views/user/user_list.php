@@ -22,7 +22,7 @@
                 <input hidden id="user_data_<?= $u['id'] ?>" value="<?= str_replace('"', "'", json_encode($u)) ?>">
                 <div class="card">
                     <div class="card-body p-4 d-flex align-items-center gap-3">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="40" height="40">
+                        <img src="<?= getAvatar($u['id']) ?>" class="rounded-circle img-fluid" style="width: 40px; height: 40px; object-fit: cover;">
                         <div>
                             <h5 class="fw-semibold mb-0"><?= ucwords($u['user']) ?></h5>
                             <span class="d-flex align-items-center"><?= $u['storage_limit'] != "Unlimited" ? sizer($u['storage_usage'])." / ".$u['storage_limit'] : "Unlimited" ?></span>
