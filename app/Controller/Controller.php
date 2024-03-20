@@ -12,6 +12,8 @@ class Controller{
     const MSG_INFO = "text-bg-info";
     const MSG_HELP = "text-bg-primary";
     const LANG_PATH = __DIR__."/../languages/";
+    const AVATAR_PATH = "assets/images/avatar";
+    const STORAGE_PATH = "storage";
 
     public static function setSystemLanguage($checkLang = false){
         if($checkLang == "default.json"){

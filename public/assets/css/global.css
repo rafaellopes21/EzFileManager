@@ -53,12 +53,11 @@ html, body {
     vertical-align: middle;
     width: 40px;
     overflow: hidden;
-    border-radius: 50%;
     margin-right: -9px;
 }
 .profile-pic img, .profile-pic i{
-    width: 100%;
-    height: auto;
+    width: 30px;
+    height: 30px;
     object-fit: cover;
 }
 .profile-menu{

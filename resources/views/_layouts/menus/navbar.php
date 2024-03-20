@@ -13,7 +13,7 @@
         <ul class="ms-auto profile-menu d-inline-flex">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" type="button" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="profile-pic"><img src="assets/images/user.png"></div>
+                    <div class="profile-pic"><img src="<?= getAvatar() ?>" class="rounded-circle img-fluid"></div>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                     <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Exemplo 1</a></li>

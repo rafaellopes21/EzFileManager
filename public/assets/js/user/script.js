@@ -73,3 +73,26 @@ function releaseUserFields(release = true){
         }
     });
 }
+
+function previewImage(input) {
+    let preview = document.querySelector('#preview-avatar');
+    let previewNav = document.querySelector('.profile-pic img');
+    let originalSrc = preview.getAttribute("original");
+
+    input.addEventListener('change', function() {
+        let file = this.files[0];
+
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                preview.src = event.target.result;
+                previewNav.src = event.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = originalSrc;
+            previewNav.src = originalSrc;
+        }
+    });
+}

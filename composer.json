@@ -25,10 +25,11 @@
         "development tools",
         "filesystem operations",
         "php file manager",
-        "file manager",
         "media manger",
         "upload",
         "filemanager",
+        "filemanager ui",
+        "file manager ui",
         "file",
         "directory",
         "folder",
@@ -41,10 +42,10 @@
             "email": "contato@ampliesolucoes.com.br"
         }
     ],
-    "version": "1.0.3",
+    "version": "1.0",
     "require": {
         "flightphp/core": "^3.6",
-        "amplie-solucoes/ezfile": "^1.0"
+        "amplie-solucoes/ezfile": "^2.0"
     },
     "autoload": {
         "psr-4": {

@@ -5,12 +5,13 @@
     <div class="col-lg-4">
         <div class="card mb-4">
             <div class="card-body text-center">
-                <img src="assets/images/user.png" class="rounded-circle img-fluid" style="width: 218px;">
-                <h5 class="my-3 mt-4 mb-4">
+                <img src="<?= getAvatar() ?>" original="assets/images/user.png" id="preview-avatar" class="rounded-circle img-fluid"
+                     style="width: 181px; height: 181px; object-fit: cover;">
+                <h5 class="my-3 mt-3 mb-3">
                     <?= strlen($user['user']) < 20 ? ucwords($user['user']) : substr(ucwords($user['user']), 0, 20)."..." ?>
                 </h5>
                 <div class="d-flex justify-content-center mb-3" style="margin-top: 30px;">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="profileimg.click();">
                         <i class="fa-solid fa-pen-to-square"></i> Change Avatar
                     </button>
                 </div>
@@ -26,6 +27,7 @@
                         <input id="type_user" name="edit" value="1">
                         <input id="delete_user" name="delete" value="0">
                         <input id="is_admin" value="<?= $user['id'] == 1 ? 1 : 0 ?>">
+                        <input type="file" hidden onclick="previewImage(this)" name="profile" id="profileimg">
                     </div>
 
                     <div class="row">

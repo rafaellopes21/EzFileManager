@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1d2c23aa1a4afb96500b8b5e3b95d2d",
+    "content-hash": "4c569092ab2f0d60588a8ffa768ede4c",
     "packages": [
         {
             "name": "amplie-solucoes/ezfile",
-            "version": "1.0.2",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rafaellopes21/EzFile.git",
-                "reference": "0b47ccfef4f5c87db0f23cbf428dc98d72f2625c"
+                "reference": "94ed20b027be18b4a8485d35514fb786dc8f7696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/0b47ccfef4f5c87db0f23cbf428dc98d72f2625c",
-                "reference": "0b47ccfef4f5c87db0f23cbf428dc98d72f2625c",
+                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/94ed20b027be18b4a8485d35514fb786dc8f7696",
+                "reference": "94ed20b027be18b4a8485d35514fb786dc8f7696",
                 "shasum": ""
             },
             "require": {
@@ -43,24 +43,55 @@
                 }
             ],
             "description": "Easy and Simple Filemanager",
+            "homepage": "https://ampliesolucoes.com.br",
+            "keywords": [
+                "Directory manipulation",
+                "File organization",
+                "Filesystem operations",
+                "Open source project",
+                "PHP Library",
+                "PHP file management",
+                "Utility library",
+                "code management",
+                "composer",
+                "development tools",
+                "directory",
+                "file",
+                "file handling",
+                "file manager",
+                "file upload",
+                "filemanager",
+                "folder",
+                "lib",
+                "library",
+                "manager",
+                "media manger",
+                "open source",
+                "php",
+                "php development",
+                "php file manager",
+                "php utilities",
+                "upload",
+                "web development"
+            ],
             "support": {
                 "issues": "https://github.com/rafaellopes21/EzFile/issues",
-                "source": "https://github.com/rafaellopes21/EzFile/tree/1.0.2"
+                "source": "https://github.com/rafaellopes21/EzFile/tree/2.1"
             },
-            "time": "2024-03-15T19:38:28+00:00"
+            "time": "2024-03-20T16:16:31+00:00"
         },
         {
             "name": "flightphp/core",
-            "version": "v3.6.1",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flightphp/core.git",
-                "reference": "4f52e1acc0eef78fdd1f2ec673f702cf7659762f"
+                "reference": "412596e86335e4d55f337878a18bc45df9c7f987"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flightphp/core/zipball/4f52e1acc0eef78fdd1f2ec673f702cf7659762f",
-                "reference": "4f52e1acc0eef78fdd1f2ec673f702cf7659762f",
+                "url": "https://api.github.com/repos/flightphp/core/zipball/412596e86335e4d55f337878a18bc45df9c7f987",
+                "reference": "412596e86335e4d55f337878a18bc45df9c7f987",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +147,9 @@
             "homepage": "http://flightphp.com",
             "support": {
                 "issues": "https://github.com/flightphp/core/issues",
-                "source": "https://github.com/flightphp/core/tree/v3.6.1"
+                "source": "https://github.com/flightphp/core/tree/v3.6.2"
             },
-            "time": "2024-03-15T14:59:07+00:00"
+            "time": "2024-03-18T14:38:22+00:00"
         }
     ],
     "packages-dev": [],

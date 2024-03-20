@@ -64,6 +64,16 @@ function sizer($n, $raw = false){
     return \AmplieSolucoes\EzFile\EzFile::sizeUnitFormatter($n, \AmplieSolucoes\EzFile\EzFile::UNIT_GIGABYTES);
 }
 
+function getAvatar(){
+    $default = 'assets/images/user.png';
+    if(DB::isEnabled()){
+        $user = "assets/images/avatar/".\App\Controller\UserController::user()['id'];
+        return \AmplieSolucoes\EzFile\EzFile::exists($user) ? \AmplieSolucoes\EzFile\EzFile::list($user)[0] : $default;
+    } else {
+        return $default;
+    }
+}
+
 function getAllCountries(){
     return [
         ['file' => 'afghanistan', 'description' => 'Afghanistan'],

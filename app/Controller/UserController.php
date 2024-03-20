@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use AmplieSolucoes\EzFile\EzFile;
 use App\helpers\Database;
 
 class UserController extends Controller {
@@ -42,6 +43,11 @@ class UserController extends Controller {
         $storageLimit = $data['storage_limit'];
         $expireDate = $data['expire_date'];
         $password = md5($data['password']);
+
+        unset($data['profile']);
+        if(isset($_FILES['profile']) && isset($_FILES['profile']['name']) && !empty($_FILES['profile']['name'])){
+            EzFile::upload(self::AVATAR_PATH."/".$data['id'], $_FILES, md5($_FILES['profile']['name']), [], true);
+        }
 
         if(isset($data['delete']) && $data['delete'] == 1){
             if($data['id'] == self::ADMIN){
