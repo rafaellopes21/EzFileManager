@@ -59,6 +59,7 @@
 
   "form": "Form",
   "form_choose": "Choose...",
+  "form_loading": "Loading...",
   "form_required_title": "Required",
   "form_required_msg": "Required fields must be filled!",
   "form_submit": "Save",

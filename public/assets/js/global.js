@@ -142,7 +142,7 @@ function loadingScreen(show = true){
 }
 
 function loadingContent(show = true, $message = false, elemInsert = false) {
-    let msg = $message ? $message : "Loading...";
+    let msg = $message ? $message : translate('form_loading');
     let loadingElement = '<div class="loader-content" style="opacity: 1"><i class="fa-solid fa-spinner fa-spin"></i><span>'+msg+'</span></div>';
 
     if(elemInsert){
