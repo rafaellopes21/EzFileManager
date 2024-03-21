@@ -7,29 +7,35 @@ function filterUsers(searchTerm) {
 
 function updateUser(...args){
     let data = args[0] ?? null;
-    let server = data.response;
+    let mainUser = parseInt(document.querySelector("#user_id").value) != 1;
+    let userList = document.querySelector("#user_list");
+    let typeUser = document.querySelector("#type_user");
 
-    if(parseInt(document.querySelector("#is_admin").value) == 1){
-        if(server.response && server.response.refreshing){
-            document.querySelector("#user_list").innerHTML = "";
-            includeContent('/user/list', document.querySelector("#user_list"), false);
-        }
+    if(userList){
+        userList.innerHTML = "";
+        includeContent('/user/list', userList, false);
     }
 
     setTimeout(function (){
         releaseUserFields(false);
+        typeUser.name = "edit";
+
         document.querySelectorAll(".editable-field").forEach(field => {
-            field.value = "";
+            if(mainUser){ field.value = ""; }
             field.classList.remove("is-valid");
         });
-        document.querySelector("#editing_btn").click();
+
+        releaseUserFields(false);
+        document.querySelector("#delete_user").value = 0;
     }, 250);
 }
 
 function createUser(e){
     let typeUser = document.querySelector("#type_user");
+    let admUsr = document.querySelector("#user_id");
     document.querySelector("#delete_user_btn").setAttribute("hidden", "hidden");
     if(typeUser.name == "edit"){
+        admUsr.value = admUsr.getAttribute("original");
         typeUser.name = "create";
         e.innerHTML = '<i class="fa-solid fa-user-pen"></i> '+translate('user_update_admin');
         releaseUserFields(true);
@@ -49,18 +55,25 @@ function deleteUser(){
 function loadUser(id){
     releaseUserFields(true);
     let user = JSON.parse((document.querySelector("#user_data_"+id).value).replace(/'/g, '"'));
-    document.querySelector("#type_user").user = "edit";
+    document.querySelector("#type_user").name = "edit";
     document.querySelector("#user_id").value = user.id;
     document.querySelector("#user").value = user.user;
     document.querySelector("#storage_limit").value = user.storage_limit;
     document.querySelector("#expire_date").value = user.expire_date;
     document.querySelector("#editing_btn").innerHTML = '<i class="fa-solid fa-user-plus"></i> '+translate('user_create_user');
-    document.querySelector("#delete_user_btn").removeAttribute("hidden");
     document.querySelector("#password").removeAttribute("required");
+    document.querySelector("#preview-avatar").src = document.querySelector("#user_profile_"+id).src;
+    if(id != 1){
+        document.querySelector("#delete_user_btn").removeAttribute("hidden");
+    } else {
+        document.querySelector("#delete_user_btn").setAttribute("hidden", "hidden");
+    }
 }
 
 function releaseUserFields(release = true){
     document.querySelector("#delete_user").value = "";
+    document.querySelector("#profileimg").value = "";
+    document.querySelector("#profileimg").files = null;
     document.querySelectorAll(".editable-field").forEach(field => {
         if(release){
             field.removeAttribute("readonly");

@@ -36,6 +36,13 @@
   "user_unlimited_storage": "Unlimited",
   "user_create_user": "Create User",
   "user_update_admin": "My Account",
+  "user_change_avatar": "Change Avatar",
+  "user_username": "Username",
+  "user_storage": "Storage",
+  "user_expiration_date": "Expiration Date",
+  "user_password": "Password",
+  "user_all_users": "All Users",
+  "user_expire": "Expire",
   "user_server_user_duplicated": "This user already exists.",
   "user_server_user_created": "New user has been created!",
   "user_server_user_updated": "The user has been updated!",
@@ -47,6 +54,7 @@
   "form_required_msg": "Required fields must be filled!",
   "form_submit": "Save",
   "form_delete": "Delete",
+  "form_edit": "Edit",
 
   "server_default_error": "Server Error",
   "server_redirect_feature": "To use this feature, you need to enable the extensions: `pdo_sqlite` and `pdo_sqlite3`."

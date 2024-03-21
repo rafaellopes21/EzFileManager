@@ -37,50 +37,57 @@ class UserController extends Controller {
     }
 
     public function update(){
-        $data = $this->getData();
-        $data['refreshing'] = false;
+        try {
+            $data = $this->getData();
+            $data['refreshing'] = false;
 
-        $storageLimit = $data['storage_limit'];
-        $expireDate = $data['expire_date'];
-        $password = md5($data['password']);
+            $msgReturn = translate('user_server_user_updated');
+            $storageLimit = $data['storage_limit'];
+            $expireDate = $data['expire_date'];
+            $password = !empty($data['password']) ? md5($data['password']) : self::user()['password'];
+            $usrImgId = $data['id'];
+            unset($data['profile']);
 
-        unset($data['profile']);
-        if(isset($_FILES['profile']) && isset($_FILES['profile']['name']) && !empty($_FILES['profile']['name'])){
-            EzFile::upload(self::AVATAR_PATH."/".$data['id'], $_FILES, md5($_FILES['profile']['name']), [], true);
-        }
-
-        if(isset($data['delete']) && $data['delete'] == 1){
-            if($data['id'] == self::ADMIN){
-                return $this->toJson($data, self::MSG_DANGER, translate('user_server_block_admin'));
-            }
-
-            Database::query("DELETE FROM users WHERE id = '".$data['id']."'");
-            Database::query("DELETE FROM settings WHERE user_id = '".$data['id']."'");
-            $data['refreshing'] = true;
-            return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_deleted'));
-        }
-
-        if(isset($data['edit'])){
-            Database::query("UPDATE users SET user = '".strtolower($data['user'])."', password = '".$password."' WHERE id = '".$data['id']."'");
-            Database::query("UPDATE settings SET storage_limit = '".$storageLimit."', expire_date = '".$expireDate."' WHERE user_id = '".$data['id']."'");
-        } else {
-            if($data['id'] == self::ADMIN){
-                if(Database::query("SELECT * FROM users WHERE user = '".strtolower($data['user'])."'")->count() > 0){
-                    return $this->toJson($data, self::MSG_WARNING, translate('user_server_user_duplicated'));
+            if(isset($data['delete']) && $data['delete'] == 1){
+                if($data['id'] == self::ADMIN){
+                    return $this->toJson($data, self::MSG_DANGER, translate('user_server_block_admin'));
                 }
 
-                Database::query("INSERT INTO users (user, password) VALUES ('".strtolower($data['user'])."', '".$password."')");
-
-                $nextId = Database::query("SELECT MAX(id) as id FROM users")->first();
-                $nextId = $nextId['id'];
-                Database::query("INSERT INTO settings (user_id, storage_usage, storage_limit, expire_date) VALUES ('".$nextId."', '0', '".$storageLimit."', '".$expireDate."')");
-
+                Database::query("DELETE FROM users WHERE id = '".$data['id']."'");
+                Database::query("DELETE FROM settings WHERE user_id = '".$data['id']."'");
                 $data['refreshing'] = true;
-                return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_created'));
+                return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_deleted'));
             }
-        }
 
-        return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_updated'));
+            if(isset($data['edit'])){
+                Database::query("UPDATE users SET user = '".strtolower($data['user'])."', password = '".$password."' WHERE id = '".$data['id']."'");
+                Database::query("UPDATE settings SET storage_limit = '".$storageLimit."', expire_date = '".$expireDate."' WHERE user_id = '".$data['id']."'");
+                EzFile::delete(self::AVATAR_PATH."/".$usrImgId, true);
+            } else {
+                if($data['id'] == self::ADMIN){
+                    if(Database::query("SELECT * FROM users WHERE user = '".strtolower($data['user'])."'")->count() > 0){
+                        return $this->toJson($data, self::MSG_WARNING, translate('user_server_user_duplicated'));
+                    }
+
+                    $nextId = Database::query("SELECT MAX(id) as id FROM users")->first();
+                    $nextId = $nextId['id'] + 1;
+                    $usrImgId = $nextId;
+                    Database::query("INSERT INTO users (id, user, password) VALUES ('".$nextId."', '".strtolower($data['user'])."', '".$password."')");
+                    Database::query("INSERT INTO settings (user_id, storage_usage, storage_limit, expire_date) VALUES ('".$nextId."', '0', '".$storageLimit."', '".$expireDate."')");
+
+                    $data['refreshing'] = true;
+                    $msgReturn = translate('user_server_user_created');
+                }
+            }
+
+            if(isset($_FILES['profile']) && isset($_FILES['profile']['name']) && !empty($_FILES['profile']['name'])){
+                EzFile::upload(self::AVATAR_PATH."/".$usrImgId, $_FILES, md5($_FILES['profile']['name']), [], true);
+            }
+
+            return $this->toJson($data, self::MSG_SUCCESS, $msgReturn);
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
     }
 
     public function login(){

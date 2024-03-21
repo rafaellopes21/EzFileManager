@@ -12,7 +12,7 @@
                 </h5>
                 <div class="d-flex justify-content-center mb-3" style="margin-top: 30px;">
                     <button type="button" class="btn btn-primary" onclick="profileimg.click();">
-                        <i class="fa-solid fa-pen-to-square"></i> Change Avatar
+                        <i class="fa-solid fa-pen-to-square"></i> <?= translate('user_change_avatar') ?>
                     </button>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3"><p class="mb-0 mt-1">Username</p></div>
+                        <div class="col-sm-3"><p class="mb-0 mt-1"><?= translate('user_username') ?></p></div>
                         <div class="col-sm-9">
                             <input class="form-control text-muted editable-field" aria-label="" readonly required
                                    original="<?= $user['user'] ?>"
@@ -40,7 +40,7 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-3"><p class="mb-0 mt-1">My Storage</p></div>
+                        <div class="col-sm-3"><p class="mb-0 mt-1"><?= translate('user_storage') ?></p></div>
                         <div class="col-sm-9">
                             <select class="form-select text-muted editable-field" id="storage_limit" name="storage_limit"
                                     original="<?= $user['storage_limit'] ?? "Unlimited" ?>" readonly required>
@@ -62,7 +62,7 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-3"><p class="mb-0 mt-1">Expiration Date</p></div>
+                        <div class="col-sm-3"><p class="mb-0 mt-1"><?= translate('user_expiration_date') ?></p></div>
                         <div class="col-sm-9">
                             <input type="date" class="form-control text-muted editable-field" aria-label="" readonly required
                                    original="<?= $user['expire_date'] ?? "9999-12-31" ?>"
@@ -71,7 +71,7 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-3"><p class="mb-0 mt-1">Password</p></div>
+                        <div class="col-sm-3"><p class="mb-0 mt-1"><?= translate('user_password') ?></p></div>
                         <div class="col-sm-9">
                             <input type="password" class="form-control text-muted editable-field" placeholder="*******" aria-label=""
                                    name="password" id="password" value="">

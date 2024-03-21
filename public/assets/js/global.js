@@ -213,9 +213,9 @@ function includeContent(routeView, loadInto = main_content, cleanRefresh = true)
         if(cleanRefresh){
             history.pushState({ url: window.location.href }, '', routeView);
             persist(loadInto);
+            revalidateFunctions();
         }
         getThemeMode();
-        revalidateFunctions();
     });
 }
 
