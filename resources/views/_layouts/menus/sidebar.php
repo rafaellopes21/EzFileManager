@@ -1,4 +1,4 @@
-<?php ?>
+<?php $storageUsage = getStorageUsage($user['id']); ?>
 <div id="bdSidebar" class="d-flex flex-column flex-shrink-0 p-3 offcanvas-lg offcanvas-start bg-light" style="border-right: 1px solid #e0e1e2;">
     <div class="mobile-only">
         <a type="button" class="navbar-brand center-brand">
@@ -50,9 +50,10 @@
     </ul>
     <hr>
     <div class="mb-2">
-        <p class="mb-1" style="font-size: 14px">5 GB / 15 GB</p>
-        <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
-            <div class="progress-bar" style="width: 25%"></div>
+        <p class="mb-1" style="font-size: 14px"><?= $storageUsage['detail']; ?></p>
+        <div class="progress storage_bar_update" role="progressbar" aria-valuenow="<?= $storageUsage['percent']; ?>"
+             aria-valuemin="0" title="<?= $storageUsage['percent']; ?>%" aria-valuemax="100" style="height: 5px">
+            <div class="progress-bar <?= $storageUsage['class']; ?>" style="width: <?= $storageUsage['percent']; ?>%"></div>
         </div>
     </div>
     <div class="d-flex" style="margin: 0 auto">

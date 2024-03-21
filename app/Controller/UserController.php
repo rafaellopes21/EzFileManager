@@ -16,6 +16,7 @@ class UserController extends Controller {
     }
 
     public function index(){
+        getStorageUsage(2);
         return $this->view('user/index', [
             'title' => translate('sidebar_user'),
             'user' => self::user(),
@@ -141,7 +142,9 @@ class UserController extends Controller {
             return false;
         }
 
-        $cols = "u.*, s.id as settings_id, s.storage_limit, s.expire_date";
-        return Database::query("SELECT $cols FROM users as u left JOIN settings as s ON u.id = s.user_id WHERE u.id = '".$_SESSION['auth']['id']."'")->first();
+        $cols = "u.*, s.id as settings_id, s.storage_limit, s.storage_usage, s.expire_date";
+        $user = Database::query("SELECT $cols FROM users as u left JOIN settings as s ON u.id = s.user_id WHERE u.id = '".$_SESSION['auth']['id']."'")->first();
+
+        return $user;
     }
 }

@@ -74,6 +74,33 @@ function getAvatar($getById = false){
     }
 }
 
+function getStorageUsage($userId){
+    $usage = ["percent" => "0", "usage" => "0 GB", "storage" => "Unlimited", "detail" => "Unlimited", "class" => ""];
+    $user = \App\helpers\Database::query("SELECT * FROM settings WHERE user_id = '".$userId."'")->first();
+
+    if($user['storage_limit'] == "Unlimited"){
+        return $usage;
+    }
+
+    $explodedType = explode(" ", $user['storage_limit']);
+    $unitType = $explodedType[1];
+    $totalSpace = $explodedType[0];
+    $limit = (int)explode(" ", \AmplieSolucoes\EzFile\EzFile::sizeUnitFormatter($totalSpace, $unitType, true))[0];
+    $usage = (int)$user['storage_usage'];
+
+    $porcentageUsage = ceil((float)number_format(($usage / $limit) * 100, 2));
+    $totalInGb = $user['storage_usage'];
+    $usage = [
+        "percent" => (string)$porcentageUsage,
+        "usage" => "$totalInGb GB",
+        "storage" => $user['storage_limit'],
+        "detail" => "$totalInGb GB / ".$user['storage_limit'],
+        "class" => $porcentageUsage >= 90 ? "bg-danger" : ""
+    ];
+
+    return $usage;
+}
+
 function getAllCountries(){
     return [
         ['file' => 'afghanistan', 'description' => 'Afghanistan'],

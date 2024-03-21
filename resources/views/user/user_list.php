@@ -17,7 +17,8 @@
     </div>
     <div class="row listing-users">
         <?php
-        foreach ($users as $u){ ?>
+        foreach ($users as $u){
+            $userUsage = getStorageUsage($u['id']); ?>
             <div class="col-sm-12 col-md-6 col-xl-4 col-xxl-3">
                 <input hidden id="user_data_<?= $u['id'] ?>" value="<?= str_replace('"', "'", json_encode($u)) ?>">
                 <div class="card">
@@ -25,9 +26,10 @@
                         <img src="<?= getAvatar($u['id']) ?>" id="user_profile_<?= $u['id'] ?>" class="rounded-circle img-fluid" style="width: 40px; height: 40px; object-fit: cover;">
                         <div>
                             <h5 class="fw-semibold mb-0"><?= ucwords($u['user']) ?></h5>
-                            <span class="d-flex align-items-center"><?= $u['storage_limit'] != "Unlimited" ? sizer($u['storage_usage'])." / ".$u['storage_limit'] : translate('user_unlimited_storage') ?></span>
-                            <div class="progress mt-1 mb-2" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 3px">
-                                <div class="progress-bar" style="width: 25%"></div>
+                            <span class="d-flex align-items-center"><?= $u['storage_limit'] != "Unlimited" ? $userUsage['detail'] : translate('user_unlimited_storage') ?></span>
+                            <div class="progress mt-1 mb-2" role="progressbar" aria-valuenow="<?= $userUsage['percent']; ?>"
+                                 aria-valuemin="0" aria-valuemax="100" title="<?= $userUsage['percent']; ?>%" style="height: 5px">
+                                <div class="progress-bar <?= $userUsage['class']; ?>" style="width: <?= $userUsage['percent']; ?>%"></div>
                             </div>
                             <small class="d-flex align-items-center"><?= translate('user_expire') ?>: <?= $u['expire_date'] ?? "9999-12-31" ?></small>
                         </div>
