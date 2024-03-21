@@ -11,7 +11,7 @@
         <form class="position-relative">
             <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="search" class="form-control" placeholder="Search users" oninput="filterUsers(this.value)">
+                <input type="search" class="form-control" placeholder="<?= translate('user_search') ?>" oninput="filterUsers(this.value)">
             </div>
         </form>
     </div>

@@ -38,6 +38,7 @@
     "user_password": "Senha",
     "user_all_users": "Usu\u00e1rios",
     "user_expire": "Vencimento",
+    "user_search": "Procurar...",
     "user_server_user_duplicated": "O usu\u00e1rio j\u00e1 existe.",
     "user_server_user_created": "Novo usu\u00e1rio criado!",
     "user_server_user_updated": "Usu\u00e1rio atualizado!",

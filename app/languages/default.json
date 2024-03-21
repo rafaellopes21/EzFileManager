@@ -43,6 +43,7 @@
   "user_password": "Password",
   "user_all_users": "All Users",
   "user_expire": "Expire",
+  "user_search": "Search User",
   "user_server_user_duplicated": "This user already exists.",
   "user_server_user_created": "New user has been created!",
   "user_server_user_updated": "The user has been updated!",
