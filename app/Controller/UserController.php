@@ -42,9 +42,9 @@ class UserController extends Controller {
             $data['refreshing'] = false;
 
             $msgReturn = translate('user_server_user_updated');
-            $storageLimit = $data['storage_limit'];
-            $expireDate = $data['expire_date'];
-            $password = !empty($data['password']) ? md5($data['password']) : self::user()['password'];
+            $storageLimit = $data['id'] == self::ADMIN ? "Unlimited" : $data['storage_limit'];
+            $expireDate = $data['id'] == self::ADMIN ? "9999-12-31" : $data['expire_date'];
+            $password = !empty($data['password']) ? md5($data['password']) : Database::query("SELECT password FROM users WHERE id = '".$data['id']."'")->first()['password'];
             $usrImgId = $data['id'];
             unset($data['profile']);
 
@@ -55,6 +55,7 @@ class UserController extends Controller {
 
                 Database::query("DELETE FROM users WHERE id = '".$data['id']."'");
                 Database::query("DELETE FROM settings WHERE user_id = '".$data['id']."'");
+                EzFile::delete(self::AVATAR_PATH."/".$usrImgId, true);
                 $data['refreshing'] = true;
                 return $this->toJson($data, self::MSG_SUCCESS, translate('user_server_user_deleted'));
             }
@@ -62,7 +63,6 @@ class UserController extends Controller {
             if(isset($data['edit'])){
                 Database::query("UPDATE users SET user = '".strtolower($data['user'])."', password = '".$password."' WHERE id = '".$data['id']."'");
                 Database::query("UPDATE settings SET storage_limit = '".$storageLimit."', expire_date = '".$expireDate."' WHERE user_id = '".$data['id']."'");
-                EzFile::delete(self::AVATAR_PATH."/".$usrImgId, true);
             } else {
                 if($data['id'] == self::ADMIN){
                     if(Database::query("SELECT * FROM users WHERE user = '".strtolower($data['user'])."'")->count() > 0){
@@ -96,11 +96,20 @@ class UserController extends Controller {
         if(self::user()){ Controller::redirect("/"); }
 
         if(isset($data['username']) && isset($data['password'])){
-            if($this->auth($data)){
-                Controller::redirect("/");
-            } else {
-                Controller::redirect("/login?error=".translate('login_error_login') );
+            if($userValidate = $this->validateUser($data)){
+                $userValidate = Database::query("SELECT expire_date FROM settings WHERE user_id = '".$userValidate['id']."'")->first();
+
+                if(isset($userValidate['expire_date']) && strtolower($userValidate['expire_date']) != "unlimited"){
+                    if(date("Y-m-d") > $userValidate['expire_date']){
+                        Controller::redirect("/login?error=".translate('login_expired')); die;
+                    }
+                }
+
+                if($this->auth($data)){
+                    Controller::redirect("/"); die;
+                }
             }
+            Controller::redirect("/login?error=".translate('login_error_login')); die;
         }
 
         \Flight::set('flight.views.path', __DIR__.'/../../resources/views');
@@ -114,13 +123,17 @@ class UserController extends Controller {
 
     private function auth($data){
         unset($_SESSION['auth']);
-        $userExist = Database::query("SELECT * FROM users WHERE user = '".strtolower($data['username'])."' AND password = '".md5($data['password'])."'")->first();
+        $userExist = $this->validateUser($data);
         if($userExist){
             $_SESSION['auth'] = $userExist;
             return true;
         } else {
             return false;
         }
+    }
+
+    private function validateUser($data){
+        return Database::query("SELECT * FROM users WHERE user = '".strtolower($data['username'])."' AND password = '".md5($data['password'])."'")->first();
     }
 
     public static function user(){

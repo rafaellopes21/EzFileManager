@@ -42,22 +42,26 @@
                     <div class="row">
                         <div class="col-sm-3"><p class="mb-0 mt-1"><?= translate('user_storage') ?></p></div>
                         <div class="col-sm-9">
-                            <select class="form-select text-muted editable-field" id="storage_limit" name="storage_limit"
-                                    original="<?= $user['storage_limit'] ?? "Unlimited" ?>" readonly required>
-                                    <option value="Unlimited"><?= translate('user_unlimited_storage') ?></option>
-                                    <option value="<?= sizer(5) ?>"><?= sizer(5) ?></option>
-                                    <option value="<?= sizer(10) ?>"><?= sizer(10) ?></option>
-                                    <option value="<?= sizer(25) ?>"><?= sizer(25) ?></option>
-                                    <option value="<?= sizer(50) ?>"><?= sizer(50) ?></option>
-                                    <option value="<?= sizer(100) ?>"><?= sizer(100) ?></option>
-                                    <option value="<?= sizer(250) ?>"><?= sizer(250) ?></option>
-                                    <option value="<?= sizer(500) ?>"><?= sizer(500) ?></option>
-                                    <option value="<?= sizer(1000) ?>"><?= sizer(1000) ?></option>
-                                    <option value="<?= sizer(2000) ?>"><?= sizer(2000) ?></option>
-                                    <option value="<?= sizer(4000) ?>"><?= sizer(4000) ?></option>
-                                    <option value="<?= sizer(5000) ?>"><?= sizer(5000) ?></option>
-                                    <option value="<?= sizer(10000) ?>"><?= sizer(10000) ?></option>
-                            </select>
+                            <?php if($user['id'] != 1){
+                                echo '<input class="form-control text-muted removevalidation" value="'.($user['storage_limit'] ?? "Unlimited").'" readonly required id="storage_limit" name="storage_limit">';
+                            } else { ?>
+                                <select class="form-select text-muted editable-field" id="storage_limit" name="storage_limit"
+                                        original="<?= $user['storage_limit'] ?? "Unlimited" ?>" readonly required>
+                                    <option <?= $user['storage_limit'] == "Unlimited" ? "selected" : "" ?> value="Unlimited"><?= translate('user_unlimited_storage') ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(5) ? "selected" : "" ?> value="<?= sizer(5) ?>"><?= sizer(5) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(10) ? "selected" : "" ?> value="<?= sizer(10) ?>"><?= sizer(10) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(25) ? "selected" : "" ?> value="<?= sizer(25) ?>"><?= sizer(25) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(50) ? "selected" : "" ?> value="<?= sizer(50) ?>"><?= sizer(50) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(100) ? "selected" : "" ?> value="<?= sizer(100) ?>"><?= sizer(100) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(250) ? "selected" : "" ?> value="<?= sizer(250) ?>"><?= sizer(250) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(500) ? "selected" : "" ?> value="<?= sizer(500) ?>"><?= sizer(500) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(1000) ? "selected" : "" ?> value="<?= sizer(1000) ?>"><?= sizer(1000) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(2000) ? "selected" : "" ?> value="<?= sizer(2000) ?>"><?= sizer(2000) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(4000) ? "selected" : "" ?> value="<?= sizer(4000) ?>"><?= sizer(4000) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(5000) ? "selected" : "" ?> value="<?= sizer(5000) ?>"><?= sizer(5000) ?></option>
+                                    <option <?= $user['storage_limit'] == sizer(10000) ? "selected" : "" ?> value="<?= sizer(10000) ?>"><?= sizer(10000) ?></option>
+                                </select>
+                            <?php } ?>
                         </div>
                     </div>
                     <hr>

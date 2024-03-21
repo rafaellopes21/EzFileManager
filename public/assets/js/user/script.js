@@ -27,6 +27,7 @@ function updateUser(...args){
 
         releaseUserFields(false);
         document.querySelector("#delete_user").value = 0;
+        document.querySelector("#preview-avatar").src =  document.querySelector("#preview-avatar").getAttribute("original");
     }, 250);
 }
 
@@ -85,6 +86,13 @@ function releaseUserFields(release = true){
             if(field.id == 'password'){ field.removeAttribute("required"); }
         }
     });
+
+    if(document.querySelector('.removevalidation')){
+        document.querySelectorAll('.removevalidation').forEach(i => {
+            i.classList.remove("is-valid");
+            i.classList.remove("is-invalid");
+        });
+    }
 }
 
 function previewImage(input) {

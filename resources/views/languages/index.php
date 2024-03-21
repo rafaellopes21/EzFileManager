@@ -36,7 +36,7 @@
             $anotherText = strpos($key, "_") !== false ? explode("_", $key)[0] : $key;
             if($anotherText != $separator){
                 $separator = $anotherText;
-                echo '<hr class="mt-2 mb-4">';
+                echo '<hr class="mt-2 mb-4"><h4 class="mb-3 text-muted">'.translate($separator).'</h4>';
             }
         ?>
             <div class="row mb-3">
