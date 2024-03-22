@@ -1,4 +1,7 @@
-<?php $storageUsage = getStorageUsage($user['id']); ?>
+<?php
+$storageUsage = \App\Controller\UserController::user();
+$storageUsage = getStorageUsage(isset($storageUsage['id']) ? $storageUsage['id'] : 0);
+?>
 <div id="bdSidebar" class="d-flex flex-column flex-shrink-0 p-3 offcanvas-lg offcanvas-start bg-light" style="border-right: 1px solid #e0e1e2;">
     <div class="mobile-only">
         <a type="button" class="navbar-brand center-brand">

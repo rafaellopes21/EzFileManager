@@ -76,9 +76,9 @@ function getAvatar($getById = false){
 
 function getStorageUsage($userId){
     $usage = ["percent" => "0", "usage" => "0 GB", "storage" => "Unlimited", "detail" => "Unlimited", "class" => ""];
-    $user = \App\helpers\Database::query("SELECT * FROM settings WHERE user_id = '".$userId."'")->first();
+    $user = DB::query("SELECT * FROM settings WHERE user_id = '".$userId."'")->first();
 
-    if($user['storage_limit'] == "Unlimited"){
+    if(!DB::isEnabled() || $user['storage_limit'] == "Unlimited"){
         return $usage;
     }
 
@@ -86,15 +86,17 @@ function getStorageUsage($userId){
     $unitType = $explodedType[1];
     $totalSpace = $explodedType[0];
     $limit = (int)explode(" ", \AmplieSolucoes\EzFile\EzFile::sizeUnitFormatter($totalSpace, $unitType, true))[0];
-    $usage = (int)$user['storage_usage'];
+
+    $explodedType = explode(" ", $user['storage_usage']);
+    $usage = (int)explode(" ", \AmplieSolucoes\EzFile\EzFile::sizeUnitFormatter($explodedType[0], $explodedType[1], true))[0];
 
     $porcentageUsage = ceil((float)number_format(($usage / $limit) * 100, 2));
     $totalInGb = $user['storage_usage'];
     $usage = [
         "percent" => (string)$porcentageUsage,
-        "usage" => "$totalInGb GB",
+        "usage" => $totalInGb,
         "storage" => $user['storage_limit'],
-        "detail" => "$totalInGb GB / ".$user['storage_limit'],
+        "detail" => "$totalInGb / ".$user['storage_limit'],
         "class" => $porcentageUsage >= 90 ? "bg-danger" : ""
     ];
 
