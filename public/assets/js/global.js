@@ -325,6 +325,25 @@ function formValidate(){
     });
 }
 
+function updateStorage(e){
+    request("/api/refresh", "POST").then(data => {
+        if(data && data.response && data.response.response){
+            let updated = data.response.response;
+            let bar = document.querySelector(".storage_bar_update");
+            e.previousElementSibling.innerHTML = updated['detail'];
+            bar.setAttribute("aria-valuenow", updated['percent']);
+            bar.title = updated['percent']+"%";
+            if(updated['class']){
+                bar.children[0].classList.remove('bg-danger');
+                bar.children[0].classList.add(updated['class']);
+            }
+
+            bar.children[0].removeAttribute("style");
+            bar.children[0].setAttribute("style", "width: "+updated['percent']+"%;");
+        }
+    });
+}
+
 async function request(route, method = 'GET', data = false, showServerMessage = true, forceReload = false) {
     try {
         loadingScreen();

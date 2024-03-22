@@ -24,5 +24,9 @@ $route->group('/login', function () use ($route){
 });
 $route->get('/logout', [new \App\Controller\UserController(), 'logout']);
 
+$route->group('/api', function () use ($route){
+    $route->post('/refresh', [new \App\Controller\ManagerController(), 'refresh']);
+    $route->post('/upload', [new \App\Controller\ManagerController(), 'upload']);
+});
 
 Flight::start();

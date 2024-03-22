@@ -68,5 +68,7 @@
 
   "server": "Server",
   "server_default_error": "Server Error",
-  "server_redirect_feature": "To use this feature, you need to enable the extensions: `pdo_sqlite` and `pdo_sqlite3`."
+  "server_redirect_feature": "To use this feature, you need to enable the extensions: `pdo_sqlite` and `pdo_sqlite3`.",
+  "server_storage_limit": "You cannot upload or create a new file, because you reached you storage limit.",
+  "server_storage_updated": "Storage size updated!"
 }
