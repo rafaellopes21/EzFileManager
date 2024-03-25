@@ -55,7 +55,7 @@ $storageUsage = getStorageUsage(isset($storageUsage['id']) ? $storageUsage['id']
     <div class="mb-2">
         <p class="mb-1" style="font-size: 14px">
             <span><?= $storageUsage['detail']; ?></span>
-            <i class="fa-solid fa-arrows-rotate btn" onclick="updateStorage(this)" style="font-size: 12px;"></i>
+            <i class="fa-solid fa-arrows-rotate btn" id="btn-updt-stg" onclick="updateStorage(this)" style="font-size: 12px;"></i>
         </p>
         <div class="progress storage_bar_update" role="progressbar" aria-valuenow="<?= $storageUsage['percent']; ?>"
              aria-valuemin="0" title="<?= $storageUsage['percent']; ?>%" aria-valuemax="100" style="height: 5px">

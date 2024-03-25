@@ -209,6 +209,7 @@ function sendNotification(type = MSG_HELP, message = false){
 
 function loadDirContents(pathDir){
     includeContent("/?dir_path="+encodeURIComponent(pathDir));
+    updateStorage(document.querySelector("#btn-updt-stg"), false);
 }
 
 function includeContent(routeView, loadInto = main_content, cleanRefresh = true){
@@ -332,8 +333,8 @@ function formValidate(){
     });
 }
 
-function updateStorage(e){
-    request("/api/refresh", "POST").then(data => {
+function updateStorage(e, showMsg = true){
+    request("/api/refresh", "POST", false, showMsg).then(data => {
         if(data && data.response && data.response.response){
             let updated = data.response.response;
             let bar = document.querySelector(".storage_bar_update");
