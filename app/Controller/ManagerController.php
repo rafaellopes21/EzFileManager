@@ -37,10 +37,19 @@ class ManagerController extends Controller {
             if(!EzFile::exists($pathList)){ return []; }
 
             $ezFile = EzFile::list($this->getStoragePath($pathList), true);
+            $files = [];
 
-            return $listOnly ? $ezFile : $this->view('home/index', [
+            if($ezFile && !empty($ezFile)){
+                foreach ($ezFile as $item){
+                    $info = EzFile::pathInfo($item, true);
+                    $type = isset($info['extension']) ? "file" : "folder";
+                    array_push($files, ["info" => $info, "type" => $type]);
+                }
+            }
+
+            return $listOnly ? $files : $this->view('home/index', [
                 'title' => translate('sidebar_home'),
-                'listing' => $ezFile
+                'listing' => $files
             ]);
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());

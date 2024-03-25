@@ -16,8 +16,6 @@
                     <div class="profile-pic"><img src="<?= getAvatar() ?>" class="rounded-circle img-fluid"></div>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Exemplo 1</a></li>
-                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <div class="dropdown dropstart">
                             <a class="dropdown-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.stopPropagation()">
