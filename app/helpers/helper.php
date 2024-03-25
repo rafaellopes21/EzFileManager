@@ -81,7 +81,7 @@ function getStorageUsage($userId){
     $usage = ["percent" => "0", "usage" => "0 GB", "storage" => "Unlimited", "detail" => "Unlimited", "class" => ""];
     $user = DB::query("SELECT * FROM settings WHERE user_id = '".$userId."'")->first();
 
-    if(!DB::isEnabled() || $user['storage_limit'] == "Unlimited"){
+    if(!DB::isEnabled() || !$user || $user['storage_limit'] == "Unlimited"){
         return $usage;
     }
 
