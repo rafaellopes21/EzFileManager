@@ -20,16 +20,138 @@ class ManagerController extends Controller {
     }
 
     public function upload(){
+        /*
+         PARAMNS:
+            'type': create / upload
+            'filepath': 'name_of_file_or_folder_with_path: file.txt'
+            'files[]': $_FILES
+         */
         $data = $this->getData();
         try {
-            //paranm is: files[]
-            if($this->updateStorageUsage($this->calculateFilesSize())){
-                //Upload logic here
-                var_dump("UPLOADING...");
-            } else {
-                return $this->toJson($this->getData(), self::MSG_WARNING, translate('server_storage_limit'));
+            $data['filepath'] = $this->getStoragePath($data['filepath']);
+            if($data['type'] == "create"){
+                $create = $data['filepath'];
+                EzFile::create($create, false, true);
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_storage_created'));
             }
 
+            if($data['type'] == "upload"){
+                if($this->updateStorageUsage($this->calculateFilesSize())){
+                    $ezFile = EzFile::upload('upload_path', $_FILES);
+                    if(isset($ezFile['error'])){
+                        return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_upload_error')." | ".$ezFile['message']);
+                    }
+                    return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_storage_uploaded'));
+                } else {
+                    return $this->toJson($this->getData(), self::MSG_WARNING, translate('server_storage_limit'));
+                }
+            }
+
+            return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_default_error'));
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
+    }
+
+    public function delete(){
+        /*
+         PARAMNS:
+            'filepath': 'name_of_file_or_folder_with_path: file.txt'
+         */
+        $data = $this->getData();
+        try {
+            $ezFile = EzFile::delete($this->getStoragePath($data['filepath']), true);
+            if(isset($ezFile['error'])){
+                return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_delete_error')." | ".$ezFile['message']);
+            } else {
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_delete_success'));
+            }
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
+    }
+
+    public function rename(){
+        /*
+         PARAMNS:
+            'original_name': 'original_file_folder_path'
+            'rename_to': 'original_file_folder_renamed'
+         */
+        $data = $this->getData();
+        try {
+            $original = $this->getStoragePath($data['original_name']);
+            $renamed = $this->getStoragePath($data['rename_to']);
+
+            $ezFile = EzFile::rename($original, $renamed, false, true);
+            if(isset($ezFile['error'])){
+                return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_rename_error')." | ".$ezFile['message']);
+            } else {
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_rename_success'));
+            }
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
+    }
+
+    public function copy(){
+        /*
+         PARAMNS:
+            'copy_from': 'original_file_folder_path_to_copy'
+            'copy_to': 'original_file_folder_to_paste'
+         */
+        $data = $this->getData();
+        try {
+            $from = $this->getStoragePath($data['copy_from']);
+            $to = $this->getStoragePath($data['copy_to']);
+
+            $ezFile = EzFile::copy($from, $to, true);
+            if(isset($ezFile['error'])){
+                return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_copy_error')." | ".$ezFile['message']);
+            } else {
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_copy_success'));
+            }
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
+    }
+
+    public function move(){
+        /*
+         PARAMNS:
+            'move_from': 'original_file_folder_path_to_move'
+            'move_to': 'moving_file_folder'
+         */
+        $data = $this->getData();
+        try {
+            $from = $this->getStoragePath($data['move_from']);
+            $to = $this->getStoragePath($data['move_to']);
+
+            $ezFile = EzFile::move($from, $to, true);
+            if(isset($ezFile['error'])){
+                return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_move_error')." | ".$ezFile['message']);
+            } else {
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_move_success'));
+            }
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
+    }
+
+    public function download(){
+        /*
+         PARAMNS:
+            'download_path': 'original_file_folder_path_to_download'
+         */
+        $data = $this->getData();
+        try {
+            $downloadPath = $this->getStoragePath($data['download_path']);
+            $ezFile = EzFile::download($downloadPath, true);
+
+            if(isset($ezFile['error'])){
+                return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_download_error')." | ".$ezFile['message']);
+            } else {
+                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_download_success'));
+            }
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
         }
@@ -95,5 +217,20 @@ class ManagerController extends Controller {
             }
         }
         return $sumSize;
+    }
+
+    private function getStoragePath($filepath){
+        $path = str_replace("/", "\\", self::STORAGE_PATH)."\\".$this->user['id'];
+        $fixedPath = str_replace("../storage", "", $filepath);
+        $fixedPath = str_replace("storage", "", str_replace($this->user['id']."/", "", $fixedPath));
+        $fixedPath = str_replace("/", "\\", $fixedPath);
+
+        if(substr($fixedPath, 0, 1) === "\\"){
+            $fixedPath = $path.$fixedPath;
+        } else {
+            $fixedPath = $path."\\".$fixedPath;
+        }
+
+        return $fixedPath;
     }
 }

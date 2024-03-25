@@ -27,6 +27,11 @@ $route->get('/logout', [new \App\Controller\UserController(), 'logout']);
 $route->group('/api', function () use ($route){
     $route->post('/refresh', [new \App\Controller\ManagerController(), 'refresh']);
     $route->post('/upload', [new \App\Controller\ManagerController(), 'upload']);
+    $route->post('/delete', [new \App\Controller\ManagerController(), 'delete']);
+    $route->post('/rename', [new \App\Controller\ManagerController(), 'rename']);
+    $route->post('/copy', [new \App\Controller\ManagerController(), 'copy']);
+    $route->post('/move', [new \App\Controller\ManagerController(), 'move']);
+    $route->get('/download', [new \App\Controller\ManagerController(), 'download']);
 });
 
 Flight::start();

@@ -70,5 +70,18 @@
   "server_default_error": "Server Error",
   "server_redirect_feature": "To use this feature, you need to enable the extensions: `pdo_sqlite` and `pdo_sqlite3`.",
   "server_storage_limit": "You cannot upload or create a new file, because you reached you storage limit.",
-  "server_storage_updated": "Storage size updated!"
+  "server_storage_created": "Item created!",
+  "server_storage_uploaded": "Upload completed!",
+  "server_storage_updated": "Storage size updated!",
+  "server_upload_error": "Upload Error!",
+  "server_delete_success": "Deleted with success!",
+  "server_delete_error": "Something wrong while deleting...",
+  "server_rename_error": "Could not rename.",
+  "server_rename_success": "Renamed with success!",
+  "server_copy_error": "Copy error!",
+  "server_copy_success": "Copied with success!",
+  "server_move_error": "Error to move",
+  "server_move_success": "Moved with success!",
+  "server_download_error": "Error to download!",
+  "server_download_success": "Downloading..."
 }
