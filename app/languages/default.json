@@ -65,6 +65,9 @@
   "form_submit": "Save",
   "form_delete": "Delete",
   "form_edit": "Edit",
+  "form_upload": "Upload",
+  "form_new_file": "New File",
+  "form_new_folder": "New Folder",
 
   "server": "Server",
   "server_default_error": "Server Error",

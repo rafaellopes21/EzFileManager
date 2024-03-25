@@ -22,16 +22,6 @@ $storageUsage = getStorageUsage(isset($storageUsage['id']) ? $storageUsage['id']
             </a>
         </li>
         <hr class="mb-2 mt-2">
-        <li class="nav-item mb-1">
-            <a class="nav-link" type="button">
-                <i class="fa-solid fa-link"></i> Example 1
-            </a>
-        </li>
-        <li class="nav-item mb-1">
-            <a class="nav-link" type="button">
-                <i class="fa-solid fa-link"></i> Example 2
-            </a>
-        </li>
         <li class="sidebar-item nav-item mb-1">
             <a type="button" class="nav-link collapsed dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#settings" aria-expanded="false" aria-controls="settings">
                 <i class="fas fa-cog pe-2"></i>

@@ -124,6 +124,33 @@ function getThemeMode(){
     }
 }
 
+function enableContextMenu(){
+    if(window.location.pathname === "/"){
+        document.addEventListener("contextmenu", showContextMenu);
+        document.addEventListener("click", hideContextMenu);
+    } else {
+        document.removeEventListener("contextmenu", showContextMenu);
+        document.removeEventListener("click", hideContextMenu);
+    }
+}
+
+function showContextMenu(event) {
+    event.preventDefault();
+    let contextMenu = document.getElementById("contextMenu");
+    if(contextMenu){
+        contextMenu.style.display = "block";
+        contextMenu.style.left = event.pageX + "px";
+        contextMenu.style.top = event.pageY + "px";
+    }
+}
+
+function hideContextMenu(event) {
+    let contextMenu = document.getElementById("contextMenu");
+    if(contextMenu){
+        contextMenu.style.display = "none";
+    }
+}
+
 function loadingScreen(show = true){
     let loader = document.querySelector(".loading-content");
     if(show){
@@ -229,6 +256,7 @@ function includeContent(routeView, loadInto = main_content, cleanRefresh = true)
 
 function revalidateFunctions(){
     formValidate();
+    enableContextMenu();
 }
 
 function fieldValidate(field){
