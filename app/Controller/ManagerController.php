@@ -16,7 +16,35 @@ class ManagerController extends Controller {
 
     public function index(){
         getStorageUsage($this->user['id']);
-        return $this->view('home/index', ['title' => 'Hello World']);
+        return $this->view('home/index', [
+            'title' => translate('sidebar_home'),
+            'listing' => $this->list(true),
+        ]);
+    }
+
+    public function list($listOnly = false){
+        /*
+         PARAMNS:
+            'dir_path': 'path_where_files_are_located_to_be_listed'
+         */
+        if(!$listOnly && !isset($_GET['instantLoad'])){
+            return $this->redirect('/?'.$_SERVER['QUERY_STRING']);
+        }
+
+        $data = $this->getData();
+        try {
+            $pathList = isset($data['dir_path']) ? $data['dir_path'] : self::STORAGE_PATH;
+            if(!EzFile::exists($pathList)){ return []; }
+
+            $ezFile = EzFile::list($this->getStoragePath($pathList), true);
+
+            return $listOnly ? $ezFile : $this->view('home/index', [
+                'title' => translate('sidebar_home'),
+                'listing' => $ezFile
+            ]);
+        } catch (\Exception $exception){
+            return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
+        }
     }
 
     public function upload(){

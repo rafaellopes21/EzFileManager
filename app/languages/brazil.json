@@ -76,5 +76,6 @@
     "server_move_error": "Erro ao tentar mover.",
     "server_move_success": "Item movido com sucesso!",
     "server_download_error": "Erro ao realizar o download!",
-    "server_download_success": "Baixando..."
+    "server_download_success": "Baixando...",
+    "server_empty_folder": "O Diret\u00f3rio est\u00e1 Vazio!"
 }

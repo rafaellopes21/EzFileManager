@@ -3,6 +3,7 @@
 $route = Flight::router();
 
 $route->get('/', [new \App\Controller\ManagerController(), 'index']);
+$route->get('/list', [new \App\Controller\ManagerController(), 'list']);
 
 $route->group('/languages', function () use ($route){
     $route->get('/', [new \App\Controller\LanguagesController(), 'index']);

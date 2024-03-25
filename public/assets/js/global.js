@@ -154,8 +154,11 @@ function loadingContent(show = true, $message = false, elemInsert = false) {
 }
 
 function loadLink(link) {
-    includeContent(link.getAttribute('to'));
-    setMenuActive(link.getAttribute('to'));
+    let toUrl = link.getAttribute('to');
+    includeContent(toUrl);
+    if(!toUrl.includes("dir_path")){
+        setMenuActive(toUrl);
+    }
 }
 
 function setMenuActive(to) {
@@ -202,6 +205,10 @@ function sendNotification(type = MSG_HELP, message = false){
     toastMessage.children[0].classList.add(type);
 
     document.querySelector("#notificationToastBtn").click();
+}
+
+function loadDirContents(pathDir){
+    includeContent("/?dir_path="+encodeURIComponent(pathDir));
 }
 
 function includeContent(routeView, loadInto = main_content, cleanRefresh = true){
