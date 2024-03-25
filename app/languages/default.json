@@ -80,7 +80,7 @@
   "server_rename_success": "Renamed with success!",
   "server_copy_error": "Copy error!",
   "server_copy_success": "Copied with success!",
-  "server_move_error": "Error to move",
+  "server_move_error": "Error to move.",
   "server_move_success": "Moved with success!",
   "server_download_error": "Error to download!",
   "server_download_success": "Downloading..."

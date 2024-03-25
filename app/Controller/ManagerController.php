@@ -32,7 +32,7 @@ class ManagerController extends Controller {
             if($data['type'] == "create"){
                 $create = $data['filepath'];
                 EzFile::create($create, false, true);
-                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_storage_created'));
+                return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_storage_created'));
             }
 
             if($data['type'] == "upload"){
@@ -41,9 +41,10 @@ class ManagerController extends Controller {
                     if(isset($ezFile['error'])){
                         return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_upload_error')." | ".$ezFile['message']);
                     }
-                    return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_storage_uploaded'));
+
+                    return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_storage_uploaded'));
                 } else {
-                    return $this->toJson($this->getData(), self::MSG_WARNING, translate('server_storage_limit'));
+                    return $this->toJson($this->refresh(true), self::MSG_WARNING, translate('server_storage_limit'));
                 }
             }
 
@@ -64,7 +65,7 @@ class ManagerController extends Controller {
             if(isset($ezFile['error'])){
                 return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_delete_error')." | ".$ezFile['message']);
             } else {
-                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_delete_success'));
+                return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_delete_success'));
             }
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
@@ -86,7 +87,7 @@ class ManagerController extends Controller {
             if(isset($ezFile['error'])){
                 return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_rename_error')." | ".$ezFile['message']);
             } else {
-                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_rename_success'));
+                return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_rename_success'));
             }
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
@@ -108,7 +109,7 @@ class ManagerController extends Controller {
             if(isset($ezFile['error'])){
                 return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_copy_error')." | ".$ezFile['message']);
             } else {
-                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_copy_success'));
+                return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_copy_success'));
             }
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
@@ -130,7 +131,7 @@ class ManagerController extends Controller {
             if(isset($ezFile['error'])){
                 return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_move_error')." | ".$ezFile['message']);
             } else {
-                return $this->toJson($this->getData(), self::MSG_SUCCESS, translate('server_move_success'));
+                return $this->toJson($this->refresh(true), self::MSG_SUCCESS, translate('server_move_success'));
             }
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
@@ -144,8 +145,7 @@ class ManagerController extends Controller {
          */
         $data = $this->getData();
         try {
-            $downloadPath = $this->getStoragePath($data['download_path']);
-            $ezFile = EzFile::download($downloadPath, true);
+            $ezFile = EzFile::download($this->getStoragePath($data['download_path']), true);
 
             if(isset($ezFile['error'])){
                 return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_download_error')." | ".$ezFile['message']);
@@ -157,13 +157,21 @@ class ManagerController extends Controller {
         }
     }
 
-    public function refresh(){
+    public function refresh($fromServer = false){
         try {
             $data = $this->updateStorageUsage(false, $this->user['id']);
             if($data){
-                return $this->toJson(['error' => false, 'response' => getStorageUsage($this->user['id'])], self::MSG_SUCCESS, translate('server_storage_updated'));
+                if($fromServer){
+                    return ['response' => getStorageUsage($this->user['id']), 'error' => false];
+                } else {
+                    return $this->toJson(['error' => false, 'response' => getStorageUsage($this->user['id'])], self::MSG_SUCCESS, translate('server_storage_updated'));
+                }
             } else {
-                return $this->toJson(['error' => true, 'response' => []], self::MSG_SUCCESS, translate('server_default_error'));
+                if($fromServer){
+                    return ['response' => [], 'error' => true];
+                } else {
+                    return $this->toJson(['error' => true, 'response' => []], self::MSG_SUCCESS, translate('server_default_error'));
+                }
             }
         } catch (\Exception $exception){
             return $this->toJson(['error' => true, 'response' => []], self::MSG_DANGER, $exception->getMessage());
