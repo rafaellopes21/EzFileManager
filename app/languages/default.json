@@ -62,6 +62,8 @@
   "form_loading": "Loading...",
   "form_required_title": "Required",
   "form_required_msg": "Required fields must be filled!",
+  "form_cancel": "Cancel",
+  "form_close": "Close",
   "form_submit": "Save",
   "form_delete": "Delete",
   "form_edit": "Edit",

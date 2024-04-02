@@ -388,33 +388,54 @@ function openModal(formModal, setTitle = false, showSaveButton = true, fromEleme
     titleModal.innerHTML = fromElement ? fromElement.children[0].innerHTML : "";
     showSaveButton ?  btnSaveModal.removeAttribute("hidden") : btnSaveModal.setAttribute("hidden", "hidden");
 
-    $("#body_global_modal").load(formModal+"?instantLoad=1", function (){});
+    $("#body_global_modal").load(formModal+"?instantLoad=1", function (){
+        document.querySelectorAll(".alert-error-upload").forEach(alert => {
+            alert.removeAttribute("hidden");
+        });
+        revalidateFunctions();
+    });
     document.querySelector("#btn_modal_open").click();
 }
 
 function validateUpload(typeUpload = "create"){
+    let errorAlertMessage = document.querySelectorAll(".alert-error-upload");
     let filesInput = document.querySelector('#files');
     let form = filesInput.closest('form');
     let type = document.querySelector("#typeUpload");
+    let fileName = document.querySelector("#concatFilePath");
+    let filePath = document.querySelector("#filepath");
+    let oldFilePath = filePath.value;
 
     type.value = typeUpload;
+
+    errorAlertMessage.forEach(alert => {
+        alert.setAttribute("hidden", "hidden");
+    });
+
+    if(fileName.value){
+        filePath.value += "/"+fileName.value;
+    } else {
+        errorAlertMessage.forEach(alert => {
+            alert.removeAttribute("hidden");
+        });
+    }
 
     if (filesInput.files.length > 0) {
         let formData = new FormData(form);
         request(form.getAttribute("action"), form.getAttribute("method"), formData).then(data => {
             if(!data.error && data.response.response){
-                updateStorage(document.querySelector("#btn-updt-stg"), false);
-                let reloadScreen = window.location.href.includes("/?") ? "?"+window.location.href.split("/?")[1] : "";
-                includeContent('/'+reloadScreen);
-            } else {
-                console.error("Error");
+                reloadCurrentScreen();
             }
             type.value = "";
+            filePath.value = oldFilePath.value;
         });
-    } else {
-        console.log("Nenhum arquivo selecionado.");
-        type.value = "";
     }
+}
+
+function reloadCurrentScreen(){
+    updateStorage(document.querySelector("#btn-updt-stg"), false);
+    let reloadScreen = window.location.href.includes("/?") ? "?"+window.location.href.split("/?")[1] : "";
+    includeContent('/'+reloadScreen);
 }
 
 async function request(route, method = 'GET', data = false, showServerMessage = true, forceReload = false) {

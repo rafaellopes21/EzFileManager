@@ -9,8 +9,12 @@
             </div>
             <div class="modal-body" id="body_global_modal"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_global_modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save_global_modal_btn">Understood</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_global_modal">
+                    <i class="fa-solid fa-xmark"></i> <?= translate('form_close') ?>
+                </button>
+                <button type="button" class="btn btn-primary" id="save_global_modal_btn">
+                    <i class="fa-solid fa-check"></i> <?= translate('form_submit') ?>
+                </button>
             </div>
         </div>
     </div>

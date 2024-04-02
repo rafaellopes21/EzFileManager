@@ -35,10 +35,10 @@ class ManagerController extends Controller {
 
         $data = $this->getData();
         try {
-            $pathList = isset($data['dir_path']) ? $data['dir_path'] : self::STORAGE_PATH;
+            $pathList = isset($data['dir_path']) ? $this->getStoragePath($data['dir_path']) : $this->getStoragePath(self::STORAGE_PATH);
             if(!EzFile::exists($pathList)){ return []; }
 
-            $ezFile = EzFile::list($this->getStoragePath($pathList), true);
+            $ezFile = EzFile::list($pathList, true);
             $files = [];
 
             if($ezFile && !empty($ezFile)){
