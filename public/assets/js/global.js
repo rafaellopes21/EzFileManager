@@ -396,7 +396,6 @@ function validateUpload(typeUpload = "create"){
     let filesInput = document.querySelector('#files');
     let form = filesInput.closest('form');
     let type = document.querySelector("#typeUpload");
-    //let filepath = document.querySelector("#filepath");
 
     type.value = typeUpload;
 
@@ -411,12 +410,10 @@ function validateUpload(typeUpload = "create"){
                 console.error("Error");
             }
             type.value = "";
-            //filepath.value = "";
         });
     } else {
         console.log("Nenhum arquivo selecionado.");
         type.value = "";
-        //filepath.value = "";
     }
 }
 
