@@ -240,11 +240,11 @@ function loadDirContents(pathDir){
 }
 
 function includeContent(routeView, loadInto = main_content, cleanRefresh = true){
-    $instantLoad = "instantLoad=1";
-    $renderView = routeView.includes("?") ? "&"+$instantLoad : "?"+$instantLoad
+    instantLoad = "instantLoad=1";
+    renderView = routeView.includes("?") ? "&"+instantLoad : "?"+instantLoad
 
     loadingContent(true, false, loadInto);
-    $(loadInto).load(routeView+$renderView, function (){
+    $(loadInto).load(routeView+renderView, function (){
         if(cleanRefresh){
             history.pushState({ url: window.location.href }, '', routeView);
             persist(loadInto);
@@ -378,6 +378,46 @@ function updateStorage(e, showMsg = true){
             bar.children[0].setAttribute("style", "width: "+updated['percent']+"%;");
         }
     });
+}
+
+function openModal(formModal, setTitle = false, showSaveButton = true, fromElement = false){
+    loadingContent(true, false, document.querySelector("#body_global_modal"));
+    let titleModal = document.querySelector("#title_global_modal");
+    let btnSaveModal = document.querySelector("#save_global_modal_btn");
+
+    titleModal.innerHTML = fromElement ? fromElement.children[0].innerHTML : "";
+    showSaveButton ?  btnSaveModal.removeAttribute("hidden") : btnSaveModal.setAttribute("hidden", "hidden");
+
+    $("#body_global_modal").load(formModal+"?instantLoad=1", function (){});
+    document.querySelector("#btn_modal_open").click();
+}
+
+function validateUpload(typeUpload = "create"){
+    let filesInput = document.querySelector('#files');
+    let form = filesInput.closest('form');
+    let type = document.querySelector("#typeUpload");
+    //let filepath = document.querySelector("#filepath");
+
+    type.value = typeUpload;
+
+    if (filesInput.files.length > 0) {
+        let formData = new FormData(form);
+        request(form.getAttribute("action"), form.getAttribute("method"), formData).then(data => {
+            if(!data.error && data.response.response){
+                updateStorage(document.querySelector("#btn-updt-stg"), false);
+                let reloadScreen = window.location.href.includes("/?") ? "?"+window.location.href.split("/?")[1] : "";
+                includeContent('/'+reloadScreen);
+            } else {
+                console.error("Error");
+            }
+            type.value = "";
+            //filepath.value = "";
+        });
+    } else {
+        console.log("Nenhum arquivo selecionado.");
+        type.value = "";
+        //filepath.value = "";
+    }
 }
 
 async function request(route, method = 'GET', data = false, showServerMessage = true, forceReload = false) {

@@ -19,11 +19,10 @@ $route->group('/user', function () use ($route){
     $route->get('/list', [new \App\Controller\UserController(), 'list']);
 });
 
-$route->group('/login', function () use ($route){
-    $route->get('/', [new \App\Controller\UserController(), 'login']);
-    $route->post('/', [new \App\Controller\UserController(), 'login']);
+$route->group('/form', function () use ($route){
+    $route->get('/upload-file', [new \App\Controller\FormController(), 'uploadFile']);
+    $route->get('/upload-folder', [new \App\Controller\FormController(), 'uploadFolder']);
 });
-$route->get('/logout', [new \App\Controller\UserController(), 'logout']);
 
 $route->group('/api', function () use ($route){
     $route->post('/refresh', [new \App\Controller\ManagerController(), 'refresh']);
@@ -34,5 +33,11 @@ $route->group('/api', function () use ($route){
     $route->post('/move', [new \App\Controller\ManagerController(), 'move']);
     $route->get('/download', [new \App\Controller\ManagerController(), 'download']);
 });
+
+$route->group('/login', function () use ($route){
+    $route->get('/', [new \App\Controller\UserController(), 'login']);
+    $route->post('/', [new \App\Controller\UserController(), 'login']);
+});
+$route->get('/logout', [new \App\Controller\UserController(), 'logout']);
 
 Flight::start();

@@ -8,10 +8,12 @@ use App\helpers\Database;
 class ManagerController extends Controller {
 
     private $user;
+    private $uploadFolder;
     public function __construct(){
         $u = UserController::user();
         $this->user = $u ? $u : ['id' => 1];
-        EzFile::create(self::STORAGE_PATH."/".$this->user['id'], false, true);
+        $this->uploadFolder = self::STORAGE_PATH."/".$this->user['id'];
+        EzFile::create($this->uploadFolder, false, true);
     }
 
     public function index(){
@@ -65,7 +67,8 @@ class ManagerController extends Controller {
          */
         $data = $this->getData();
         try {
-            $data['filepath'] = $this->getStoragePath($data['filepath']);
+            $data['filepath'] = empty($data['filepath']) ? $this->uploadFolder : $this->getStoragePath($data['filepath']);
+
             if($data['type'] == "create"){
                 $create = $data['filepath'];
                 EzFile::create($create, false, true);
@@ -74,7 +77,7 @@ class ManagerController extends Controller {
 
             if($data['type'] == "upload"){
                 if($this->updateStorageUsage($this->calculateFilesSize())){
-                    $ezFile = EzFile::upload('upload_path', $_FILES);
+                    $ezFile = EzFile::upload($data['filepath'], $_FILES, false, [], true);
                     if(isset($ezFile['error'])){
                         return $this->toJson($this->getData(), self::MSG_DANGER, translate('server_upload_error')." | ".$ezFile['message']);
                     }
@@ -232,6 +235,7 @@ class ManagerController extends Controller {
             }
 
             $split = explode(" ", $storage['storage_usage']);
+            $split[1] = isset($split[1]) ? $split[1] : EzFile::UNIT_GIGABYTES;
             $usage = (int)explode(" ", EzFile::sizeUnitFormatter($split[0], $split[1], true))[0];
             $usage += $usageSize;
             $updateUsage = EzFile::sizeUnitFormatter($usage);

@@ -14,6 +14,7 @@
 <body>
     <?= import('_layouts/notification/toast'); ?>
     <div class="loading-content loader show-loader"></div>
+    <?= import('_layouts/contextual/modal'); ?>
 
     <div class="container-fluid p-0 d-flex h-100 blur-content" id="general-content">
         <?= import('_layouts/menus/navbar'); ?>
