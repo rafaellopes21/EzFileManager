@@ -20,6 +20,8 @@ $route->group('/user', function () use ($route){
 });
 
 $route->group('/form', function () use ($route){
+    $route->get('/copy', [new \App\Controller\FormController(), 'copy']);
+    $route->get('/rename', [new \App\Controller\FormController(), 'rename']);
     $route->get('/upload-file', [new \App\Controller\FormController(), 'uploadFile']);
     $route->get('/upload-folder', [new \App\Controller\FormController(), 'uploadFolder']);
 });

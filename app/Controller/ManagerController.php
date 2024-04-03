@@ -268,6 +268,17 @@ class ManagerController extends Controller {
         return $sumSize;
     }
 
+    public function getFolders(){
+        $listing = $this->list(true);
+        $filteredArray = [];
+        if(!empty($listing)){
+            $filteredArray = array_filter($listing, function($item) {
+                return !isset($item['info']['extension']);
+            });
+        }
+        return $filteredArray;
+    }
+
     private function getStoragePath($filepath){
         $path = str_replace("/", "\\", self::STORAGE_PATH)."\\".$this->user['id'];
         $fixedPath = str_replace("../storage", "", $filepath);

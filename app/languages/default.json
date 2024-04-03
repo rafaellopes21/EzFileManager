@@ -57,6 +57,20 @@
   "user_server_user_deleted": "The user has been deleted!",
   "user_server_block_admin": "You can not do this action in admin Account!",
 
+  "upload_content_file": "Insert File Name and Extension",
+  "upload_content_file_error": "Invalid File Name",
+  "upload_content_folder": "Insert Folder Name",
+  "upload_content_folder_error": "Invalid Folder Name",
+  "upload_default_error": "Ops! An error occuried while trying to save your upload.",
+  "upload_content_rename_error": "Ops! An error occuried while trying to rename.",
+  "upload_rename": "Rename",
+  "upload_open": "Open",
+  "upload_delete": "Delete",
+  "upload_copy": "Copy",
+  "upload_copying": "Copying",
+  "upload_move": "Move",
+  "upload_download": "Download",
+
   "form": "Form",
   "form_choose": "Choose...",
   "form_loading": "Loading...",
@@ -67,6 +81,7 @@
   "form_submit": "Save",
   "form_delete": "Delete",
   "form_edit": "Edit",
+  "form_type_here": "Type Here",
   "form_upload": "Upload",
   "form_new_file": "New File",
   "form_new_folder": "New Folder",
@@ -89,5 +104,6 @@
   "server_move_success": "Moved with success!",
   "server_download_error": "Error to download!",
   "server_download_success": "Downloading...",
-  "server_empty_folder": "The Directory is Empty!"
+  "server_empty_folder": "The Directory is Empty!",
+  "server_nothing_found": "Nothing Found!"
 }

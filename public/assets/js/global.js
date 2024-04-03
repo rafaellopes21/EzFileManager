@@ -384,51 +384,142 @@ function openModal(formModal, setTitle = false, showSaveButton = true, fromEleme
     loadingContent(true, false, document.querySelector("#body_global_modal"));
     let titleModal = document.querySelector("#title_global_modal");
     let btnSaveModal = document.querySelector("#save_global_modal_btn");
+    let sendBtn = document.querySelector("#save_global_modal_btn");
+    if(sendBtn.hasAttribute("onclick")){ sendBtn.removeAttribute("onclick"); }
 
-    titleModal.innerHTML = fromElement ? fromElement.children[0].innerHTML : "";
+    titleModal.innerHTML = fromElement ? fromElement.children[0].innerHTML : setTitle;
     showSaveButton ?  btnSaveModal.removeAttribute("hidden") : btnSaveModal.setAttribute("hidden", "hidden");
 
-    $("#body_global_modal").load(formModal+"?instantLoad=1", function (){
-        document.querySelectorAll(".alert-error-upload").forEach(alert => {
-            alert.removeAttribute("hidden");
-        });
+    let instantLoad = "instantLoad=1";
+    instantLoad = formModal.includes("?") ? "&"+instantLoad : "?"+instantLoad;
+
+    $("#body_global_modal").load(formModal+instantLoad, function (){
+        if(document.querySelector(".alert-error-upload")){
+            document.querySelectorAll(".alert-error-upload").forEach(alert => {
+                alert.setAttribute("hidden", "hidden");
+            });
+        }
         revalidateFunctions();
     });
     document.querySelector("#btn_modal_open").click();
 }
 
+function closeModal(){
+    if(document.querySelector("#globalModal").classList.contains("show")){
+        document.querySelector("#btn_modal_open").click();
+    }
+}
+
 function validateUpload(typeUpload = "create"){
-    let errorAlertMessage = document.querySelectorAll(".alert-error-upload");
+    let sendForm = false;
     let filesInput = document.querySelector('#files');
     let form = filesInput.closest('form');
     let type = document.querySelector("#typeUpload");
     let fileName = document.querySelector("#concatFilePath");
+    let folderName = document.querySelector("#concatFolderPath");
     let filePath = document.querySelector("#filepath");
     let oldFilePath = filePath.value;
 
     type.value = typeUpload;
 
-    errorAlertMessage.forEach(alert => {
-        alert.setAttribute("hidden", "hidden");
-    });
-
-    if(fileName.value){
-        filePath.value += "/"+fileName.value;
-    } else {
-        errorAlertMessage.forEach(alert => {
-            alert.removeAttribute("hidden");
-        });
+    if(fileName && fileName.value && isValidUpload(fileName)){
+        let ext = fileName.value.includes(".") ? "" : ".txt";
+        filePath.value += "/"+fileName.value+ext;
+        sendForm = true;
     }
 
-    if (filesInput.files.length > 0) {
+    if(folderName && folderName.value && isValidUpload(folderName)){
+        filePath.value += "/"+folderName.value;
+        sendForm = true;
+    }
+
+    if(filesInput && filesInput.files.length > 0){ sendForm = true; }
+
+    if (sendForm){
         let formData = new FormData(form);
         request(form.getAttribute("action"), form.getAttribute("method"), formData).then(data => {
-            if(!data.error && data.response.response){
-                reloadCurrentScreen();
-            }
-            type.value = "";
+            if(!data.error && data.response.response){ reloadCurrentScreen(); }
             filePath.value = oldFilePath.value;
+            type.value = "";
+            if(fileName && fileName.value){ fileName.value = ""; }
+            if(folderName && folderName.value){ folderName.value = ""; }
         });
+    } else {
+        filePath.value = oldFilePath.value;
+        type.value = "";
+        if(fileName && fileName.value){ fileName.value = ""; }
+        if(folderName && folderName.value){ folderName.value = ""; }
+        sendNotification(MSG_DANGER, translate('upload_default_error'));
+    }
+
+    closeModal();
+}
+
+function renameContent(path, currentName){
+    openModal('/form/rename', translate('upload_rename'));
+    setTimeout(function (){
+        let item = document.querySelector("#concatRenameItem");
+        item.value = currentName;
+        item.setAttribute("path", path);
+    }, 100);
+}
+
+function validateRename(path, hasElement = false){
+    let item = document.querySelector("#concatRenameItem");
+    let newContent = item.value;
+
+    if(!hasElement){
+        request('/api/rename', 'post', {original_name: path, rename_to: newContent}).then(data => {
+            if(!data.error && data.response.response){ reloadCurrentScreen(); }
+        });
+        closeModal();
+    } else {
+        if(hasElement.value.trim() && hasElement.value.trim().length > 0){
+            alertManagerWithAction(true, "validateRename('"+item.getAttribute('path')+"')");
+            return true;
+        } else {
+            alertManagerWithAction(false);
+            return false;
+        }
+    }
+}
+
+function copyContent(path){
+    openModal('/form/copy?content='+path, translate('upload_copy'));
+}
+function validateCopy(from, to){
+    request('/api/copy', 'post', {copy_from: from, copy_to: to}).then(data => {
+        if(!data.error && data.response.response){ reloadCurrentScreen(); }
+    });
+    closeModal();
+}
+
+function deleteContent(path){
+    request('/api/delete', 'post', {filepath: path}).then(data => {
+        if(!data.error && data.response.response){ reloadCurrentScreen(); }
+    });
+}
+
+function isValidUpload(e){
+    if(e.value.trim() && e.value.trim().length > 0){
+        alertManagerWithAction(true, "validateUpload('create')");
+        return true;
+    } else {
+        alertManagerWithAction(false);
+        return false;
+    }
+}
+
+function alertManagerWithAction(hide, stringFunction = false){
+    let alerts = document.querySelectorAll(".alert-error-upload");
+    let send = document.querySelector("#save_global_modal_btn");
+
+    if(hide){
+        alerts.forEach(alert => { alert.setAttribute("hidden", "hidden"); });
+        if(!send.hasAttribute("onclick") && stringFunction){send.setAttribute("onclick", stringFunction);}
+    } else {
+        alerts.forEach(alert => { alert.removeAttribute("hidden"); });
+        if(send.hasAttribute("onclick")){ send.removeAttribute("onclick"); }
     }
 }
 
