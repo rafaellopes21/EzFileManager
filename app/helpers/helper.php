@@ -30,7 +30,7 @@ function translate($language_key = false){
         if(isset($_SESSION['SYS_LANG']->$language_key)){
             return $_SESSION['SYS_LANG']->$language_key;
         } else {
-            return defaultLanguageTranslate()->$language_key;
+            return defaultLanguageTranslate()->$language_key ?? null;
         }
     } else {
         return $_SESSION['SYS_LANG'];
