@@ -48,7 +48,8 @@ class Database{
             "CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user VARCHAR(255) NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            icon_type VARCHAR(25) NOT NULL DEFAULT 'fiv-sqo'
         )");
 
         $pdo->exec(

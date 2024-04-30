@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="assets/images/icon.png">
     <link href="assets/libs/boostrap/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/global.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://rawcdn.githack.com/dmhendricks/file-icon-vectors/master/dist/file-icon-vectors.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/file-icon-vectors@1.0.0/dist/file-icon-vectors.min.css" />
     <script src="https://kit.fontawesome.com/6ac77c14e0.js" crossorigin="anonymous"></script>
 </head>
 <body>

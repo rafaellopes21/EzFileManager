@@ -25,6 +25,14 @@ function defaultLanguageTranslate($forceGetDefault = false){
     return json_decode(file_get_contents(__DIR__."/../languages/".$langFile));
 }
 
+function getSystemIcon(){
+    if(!isset($_SESSION['SYS_ICON'])){
+        $_SESSION['SYS_ICON'] = "fiv-sqo";
+    }
+
+    return $_SESSION['SYS_ICON'];
+}
+
 function translate($language_key = false){
     if($language_key){
         if(isset($_SESSION['SYS_LANG']->$language_key)){
@@ -46,6 +54,7 @@ function enableFeature($disableControl = false, $forceHidden = false){
         "/user",
         "/login",
         "/logout",
+        "/iconChanger",
     ];
 
     $linkUrl = $disableControl ? $disableControl : $_SERVER['REQUEST_URI'];

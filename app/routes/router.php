@@ -17,6 +17,7 @@ $route->group('/user', function () use ($route){
     $route->get('/', [new \App\Controller\UserController(), 'index']);
     $route->post('/update', [new \App\Controller\UserController(), 'update']);
     $route->get('/list', [new \App\Controller\UserController(), 'list']);
+    $route->post('/icon-change', [new \App\Controller\UserController(), 'iconChange']);
 });
 
 $route->group('/form', function () use ($route){

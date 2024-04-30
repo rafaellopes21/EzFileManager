@@ -2,7 +2,8 @@
 if(!isset($listing) || empty($listing)){
     echo '<div class="alert alert-dark text-center" role="alert" style="font-size: 26px;"><i class="fa-solid fa-triangle-exclamation"></i> '.translate('server_empty_folder').'</div>';
 } else {
-    echo '<div class="container-fluid"><div class="row">';
+    echo '<div class="container-fluid"><h5>'. translate('upload_listing') .' '.count($listing).' '. translate('upload_showing') .'.</h5>
+<div class="row">';
     foreach ($listing as $k => $item){
         $itemPath = $item['info']['dirname']."\\".$item['info']['basename'];
         $currentPath = isset($_GET['dir_path']) ? $_GET['dir_path']."/".$item['info']['basename'] : $item['info']['basename'];
@@ -50,9 +51,9 @@ if(!isset($listing) || empty($listing)){
            <div class="archive-link" onclick="openClickLink(this)">
                <div class="icon">
                    <?php if($item['type'] == "folder"){
-                       echo ' <i class="fa-solid fa-folder"></i>';
+                       echo ' <i class="'.getSystemIcon().' fiv-icon-folder"></i>';
                    } else {
-                       echo '<i class="fiv-icon fiv-sqo fiv-icon-'.$item['info']['extension'].'"></i>';
+                       echo '<i class="'.getSystemIcon().' fiv-icon-'.$item['info']['extension'].'"></i>';
                    }?>
                </div>
                <div class="archive-title mt-1"><?= $item['info']['basename'] ?></div>
@@ -64,14 +65,15 @@ if(!isset($listing) || empty($listing)){
                     <div class="col-4 text-start"><small><?= $item['info']['size_formated'] ?></small></div>
                     <div class="col-8 text-end">
                         <small class="dropdown-toggle" data-bs-toggle="collapse" href="#details-show-<?= $k ?>" role="button"
-                               aria-expanded="false" aria-controls="details-show-<?= $k ?>">Detalhes
+                               aria-expanded="false" aria-controls="details-show-<?= $k ?>">
+                            <?= translate('upload_details') ?>
                         </small>
                     </div>
                 </div>
                 <div class="collapse mt-1" id="details-show-<?= $k ?>">
                     <div class="card">
                         <ul class="list-group detailing-archive">
-                            <li class="list-group-item"><?= $itemPath ?></li>
+                            <li class="list-group-item"><?= str_replace(str_replace("/", "\\", $replacerDirName)."\\", "", $itemPath); ?></li>
                             <li class="list-group-item"><b><?= translate('upload_detail_created') ?></b> <?= date("y-m-d H:i", strtotime($item['info']['created_at'])) ?></li>
                             <li class="list-group-item"><b><?= translate('upload_detail_modified') ?></b> <?= date("y-m-d H:i", strtotime($item['info']['modified_at'])) ?></li>
                         </ul>
@@ -82,4 +84,3 @@ if(!isset($listing) || empty($listing)){
 <?php }
     echo '</div></div>';
 }?>
-

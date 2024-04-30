@@ -35,6 +35,32 @@
                         </div>
                     </li>
                     <li>
+                        <div class="dropdown dropstart">
+                            <a class="dropdown-item" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                               onclick="event.stopPropagation()">
+                                <i class="fa-solid fa-icons fa-fw"></i>
+                                <?= translate('navbar_icon'); ?>
+                            </a>
+                            <ul class="dropdown-menu overflow-y-auto" style="max-height: 400px;top: -60px;">
+                                <li>
+                                    <a class="dropdown-item icon-selection<?= getSystemIcon() == "fiv-cla" ? " active" : "" ?>" type="button" icon="fiv-cla">
+                                        <span class="fiv-cla fiv-icon-bat fa-fw"></span> <?= translate('navbar_icon_classic'); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item icon-selection<?= getSystemIcon() == "fiv-viv" ? " active" : "" ?>" type="button" icon="fiv-viv">
+                                        <span class="fiv-viv fiv-icon-bat fa-fw"></span> <?= translate('navbar_icon_vivid'); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item icon-selection<?= getSystemIcon() == "fiv-sqo" ? " active" : "" ?>" type="button" icon="fiv-sqo">
+                                        <span class="fiv-sqo fiv-icon-bat fa-fw"></span> <?= translate('navbar_icon_outline'); ?>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
                         <a class="dropdown-item" type="button" id="theme-button">
                             <i class="fa-solid fa-sun fa-fw"></i> <span></span>
                         </a>

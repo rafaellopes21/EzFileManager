@@ -46,6 +46,12 @@ class Controller{
         return ['lang' => $_SESSION['SYS_LANG_NAME'], 'translation' => $_SESSION['SYS_LANG']];
     }
 
+    public static function setSystemIcon(){
+        if(!isset($_SESSION['SYS_ICON'])){
+            $_SESSION['SYS_ICON'] = "fiv-sqo";
+        }
+    }
+
     public static function view($view, $dataSecondView = []) {
         if(isset($_SESSION['sendNotification'])){
             $dataSecondView['sendNotification'] = $_SESSION['sendNotification'];
@@ -57,6 +63,7 @@ class Controller{
             return self::render($view, $dataSecondView);
         } else {
             self::setSystemLanguage();
+            self::setSystemIcon();
             $dataContent = $dataSecondView;
             $dataContent['main_content'] = $view;
             $dataContent['translation'] = str_replace('"', "'", json_encode(translate()));

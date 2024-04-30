@@ -15,7 +15,11 @@ if(!isset($listing) || empty($listing)){
     $paddingFolder = 0;
 
     foreach ($listing as $key => $item){
-        $itemPath = $item['dirname']."\\".$item['basename'];
+        $to = $item['dirname']."\\".$item['basename'];
+        if(isset(pathinfo($current)['extension'])){
+            $to .= "\\".pathinfo($current)['basename'];
+        }
+
         $currentPath = isset($_GET['dir_path']) ? $_GET['dir_path']."/".$item['basename'] : $item['basename'];
         if($lastBasePath != $item['dirname'] && !isset($item['main_folder'])){
             $lastBasePath = $item['dirname'];
@@ -23,7 +27,7 @@ if(!isset($listing) || empty($listing)){
         }?>
 
         <li class="list-group-item list-group-item-action folder-selection"
-            onclick="validateCopyMove('<?= urlencode($current) ?>', '<?= urlencode($currentPath) ?>', '<?= $ruleList ?>')"
+            onclick="validateCopyMove('<?= urlencode($current) ?>', '<?= urlencode($to) ?>', '<?= $ruleList ?>')"
             style="padding-left: <?= $paddingFolder == 0 ? "7" : $paddingFolder ?>px">
             <?= $paddingFolder > 0 ? '<i class="fa-solid fa-arrow-turn-up me-1" style="rotate: 90deg;"></i> ' : '' ?>
             <i class="fa-solid fa-folder-open"></i> <?= isset($item['main_folder']) ? translate('upload_main_dir') : $item['basename'] ?>

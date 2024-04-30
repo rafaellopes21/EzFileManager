@@ -117,6 +117,15 @@ class UserController extends Controller {
         return \Flight::render('login/index', []);
     }
 
+    public function iconChange(){
+        $data = $this->getData();
+        unset($_SESSION['SYS_ICON']);
+
+        $_SESSION['SYS_ICON'] = $data['icon'];
+
+        return $this->toJson($data, self::MSG_SUCCESS);
+    }
+
     public function logout(){
         unset($_SESSION['auth']);
         return Controller::redirect("/login");

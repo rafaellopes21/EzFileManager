@@ -21,6 +21,7 @@ class ManagerController extends Controller {
         return $this->view('home/index', [
             'title' => translate('sidebar_home'),
             'listing' => $this->list(true),
+            'replacerDirName' => $this->uploadFolder,
         ]);
     }
 
@@ -71,7 +72,8 @@ class ManagerController extends Controller {
 
             return $listOnly ? $files : $this->view('home/index', [
                 'title' => translate('sidebar_home'),
-                'listing' => $files
+                'listing' => $files,
+                'replacerDirName' => $this->uploadFolder,
             ]);
         } catch (\Exception $exception){
             return $this->toJson($this->getData(), self::MSG_DANGER, $exception->getMessage());
@@ -162,8 +164,8 @@ class ManagerController extends Controller {
          */
         $data = $this->getData();
         try {
-            $from = $this->getStoragePath($data['copy_from']);
-            $to = $this->getStoragePath($data['copy_to']);
+            $from = $this->getStoragePath(urldecode($data['copy_from']));
+            $to = str_replace("/", "\\", urldecode($data['copy_to']));
 
             $ezFile = EzFile::copy($from, $to, true);
             if(isset($ezFile['error'])){
@@ -184,8 +186,8 @@ class ManagerController extends Controller {
          */
         $data = $this->getData();
         try {
-            $from = $this->getStoragePath($data['move_from']);
-            $to = $this->getStoragePath($data['move_to']);
+            $from = $this->getStoragePath(urldecode($data['move_from']));
+            $to = str_replace("/", "\\", urldecode($data['move_to']));
 
             $ezFile = EzFile::move($from, $to, true);
             if(isset($ezFile['error'])){

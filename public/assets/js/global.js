@@ -38,6 +38,10 @@ document.querySelectorAll(".lang-selection").forEach(l => {
     l.addEventListener("click", function (){changeLanguage(l);});
 });
 
+document.querySelectorAll(".icon-selection").forEach(l => {
+    l.addEventListener("click", function (){changeIcon(l);});
+});
+
 window.addEventListener('popstate', function (event) {
     let olrUrl = window.location.pathname;
     if (olrUrl && olrUrl != "" && olrUrl != " ") {
@@ -61,6 +65,11 @@ function getLanguagePattern(element){
 function changeLanguage(e, forceChange){
     let dataSend = {language: (e ? e.getAttribute('lang') : forceChange)+".json"};
     request('/languages/change', 'post', dataSend, false, true);
+}
+
+function changeIcon(e, forceChange){
+    let dataSend = {icon: e.getAttribute('icon')};
+    request('/user/icon-change', 'post', dataSend, false, true);
 }
 
 function setThemeMode(){
@@ -414,6 +423,10 @@ function validateUpload(typeUpload = "create"){
     let sendForm = false;
     let filesInput = document.querySelector('#files');
     let form = filesInput.closest('form');
+    if(filesInput && filesInput.files.length <= 0){
+        filesInput = document.querySelector('#files_folder');
+        form = filesInput.closest('form');
+    }
     let type = document.querySelector("#typeUpload");
     let fileName = document.querySelector("#concatFilePath");
     let folderName = document.querySelector("#concatFolderPath");
@@ -469,10 +482,27 @@ function validateRename(path, hasElement = false){
     let newContent = item.value;
 
     if(!hasElement){
-        request('/api/rename', 'post', {original_name: path, rename_to: newContent}).then(data => {
-            if(!data.error && data.response.response){ reloadCurrentScreen(); }
-        });
-        closeModal();
+        let canGo = true;
+        if(item.getAttribute("path") && item.getAttribute("path").includes(".")){
+            if(!newContent.includes(".")){
+                canGo = false;
+                sendNotification(MSG_DANGER, translate('upload_content_rename_file_error'));
+            }
+        } else {
+            if(newContent.includes(".")){
+                canGo = false;
+                sendNotification(MSG_DANGER, translate('upload_content_rename_folder_error'));
+            }
+        }
+
+        if(canGo){
+            request('/api/rename', 'post', {original_name: path, rename_to: newContent}).then(data => {
+                if(!data.error && data.response.response){ reloadCurrentScreen(); }
+            });
+            closeModal();
+        } else {
+            return false;
+        }
     } else {
         if(hasElement.value.trim() && hasElement.value.trim().length > 0){
             alertManagerWithAction(true, "validateRename('"+item.getAttribute('path')+"')");
