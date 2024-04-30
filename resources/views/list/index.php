@@ -9,7 +9,7 @@ if(!isset($listing) || empty($listing)){
         $currentPath = isset($_GET['dir_path']) ? $_GET['dir_path']."/".$item['info']['basename'] : $item['info']['basename'];
         ?>
 
-        <div class="card archive-card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-1 position-relative bg-theme">
+        <div class="card archive-card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-2 mb-1 position-relative bg-theme">
             <div class="position-absolute archive-menu btn dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <ul class="dropdown-menu">
