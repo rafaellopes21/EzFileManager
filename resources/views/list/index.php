@@ -19,7 +19,7 @@ if(!isset($listing) || empty($listing)){
                             <i class="fa-regular fa-folder-open"></i> <?= translate('upload_open') ?>
                         </a>
                     </li>
-                    <li><hr class="mt-1 mb-1"></li>
+                    <li <?= $item['type'] == "folder" ? "" : "hidden" ?>><hr class="mt-1 mb-1"></li>
                     <li>
                         <a class="dropdown-item" type="button" onclick="renameContent('<?= $currentPath ?>', '<?= $item['info']['basename'] ?>')">
                             <i class="fa-solid fa-pen"></i> <?= translate('upload_rename') ?>
