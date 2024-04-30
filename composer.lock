@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amplie-solucoes/ezfile",
-            "version": "2.2",
+            "version": "2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rafaellopes21/EzFile.git",
-                "reference": "639db1630526cea64fc31addc312578fec672fef"
+                "reference": "84bf80b074027f9e019cb292ed841946cc0b283f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/639db1630526cea64fc31addc312578fec672fef",
-                "reference": "639db1630526cea64fc31addc312578fec672fef",
+                "url": "https://api.github.com/repos/rafaellopes21/EzFile/zipball/84bf80b074027f9e019cb292ed841946cc0b283f",
+                "reference": "84bf80b074027f9e019cb292ed841946cc0b283f",
                 "shasum": ""
             },
             "require": {
@@ -76,22 +76,22 @@
             ],
             "support": {
                 "issues": "https://github.com/rafaellopes21/EzFile/issues",
-                "source": "https://github.com/rafaellopes21/EzFile/tree/2.2"
+                "source": "https://github.com/rafaellopes21/EzFile/tree/2.3"
             },
-            "time": "2024-03-25T11:58:43+00:00"
+            "time": "2024-04-30T13:23:18+00:00"
         },
         {
             "name": "flightphp/core",
-            "version": "v3.7.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flightphp/core.git",
-                "reference": "4fe54ea6def722f5597c2a3b288b27cbeb15e161"
+                "reference": "0011efd42c40f4c600612e425ad598ec8cd6bae7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flightphp/core/zipball/4fe54ea6def722f5597c2a3b288b27cbeb15e161",
-                "reference": "4fe54ea6def722f5597c2a3b288b27cbeb15e161",
+                "url": "https://api.github.com/repos/flightphp/core/zipball/0011efd42c40f4c600612e425ad598ec8cd6bae7",
+                "reference": "0011efd42c40f4c600612e425ad598ec8cd6bae7",
                 "shasum": ""
             },
             "require": {
@@ -149,9 +149,9 @@
             "homepage": "http://flightphp.com",
             "support": {
                 "issues": "https://github.com/flightphp/core/issues",
-                "source": "https://github.com/flightphp/core/tree/v3.7.1"
+                "source": "https://github.com/flightphp/core/tree/v3.8.1"
             },
-            "time": "2024-03-23T15:54:51+00:00"
+            "time": "2024-04-11T04:28:40+00:00"
         }
     ],
     "packages-dev": [],

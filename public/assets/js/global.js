@@ -487,8 +487,14 @@ function validateRename(path, hasElement = false){
 function copyContent(path){
     openModal('/form/copy?content='+path, translate('upload_copy'));
 }
-function validateCopy(from, to){
-    request('/api/copy', 'post', {copy_from: from, copy_to: to}).then(data => {
+
+function moveContent(path){
+    openModal('/form/move?content='+path, translate('upload_move'));
+}
+
+function validateCopyMove(from, to, action){
+    let dataSend = action == "move" ? {move_from: from, move_to: to} : {copy_from: from, copy_to: to};
+    request('/api/'+action, 'post', dataSend).then(data => {
         if(!data.error && data.response.response){ reloadCurrentScreen(); }
     });
     closeModal();
@@ -507,6 +513,15 @@ function isValidUpload(e){
     } else {
         alertManagerWithAction(false);
         return false;
+    }
+}
+
+function openClickLink(e){
+    let validateLink = e.previousElementSibling.querySelector(".openLinkClick");
+    if(!validateLink.hasAttribute("hidden")){
+        validateLink.click();
+    } else {
+        e.nextElementSibling.click();
     }
 }
 

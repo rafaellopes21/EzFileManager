@@ -57,6 +57,7 @@
   "user_server_user_deleted": "The user has been deleted!",
   "user_server_block_admin": "You can not do this action in admin Account!",
 
+  "upload_main_dir": "Main Folder",
   "upload_content_file": "Insert File Name and Extension",
   "upload_content_file_error": "Invalid File Name",
   "upload_content_folder": "Insert Folder Name",
@@ -69,7 +70,10 @@
   "upload_copy": "Copy",
   "upload_copying": "Copying",
   "upload_move": "Move",
+  "upload_moving": "Moving",
   "upload_download": "Download",
+  "upload_detail_created": "Created at:",
+  "upload_detail_modified": "Modified at:",
 
   "form": "Form",
   "form_choose": "Choose...",

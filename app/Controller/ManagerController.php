@@ -24,7 +24,7 @@ class ManagerController extends Controller {
         ]);
     }
 
-    public function list($listOnly = false){
+    public function list($listOnly = false, $getRootDir = false){
         /*
          PARAMNS:
             'dir_path': 'path_where_files_are_located_to_be_listed'
@@ -39,8 +39,14 @@ class ManagerController extends Controller {
             if(!EzFile::exists($pathList)){ return []; }
 
             $ezFile = EzFile::list($pathList, true);
-            $files = [];
 
+            $files = [];
+            if($listOnly && $getRootDir){
+                $files[] = [
+                    "info" => EzFile::pathInfo($this->getStoragePath(self::STORAGE_PATH), true),
+                    "type" => "folder",
+                ];
+            }
             if($ezFile && !empty($ezFile)){
                 foreach ($ezFile as $item){
                     $info = EzFile::pathInfo($item, true);
@@ -48,6 +54,20 @@ class ManagerController extends Controller {
                     array_push($files, ["info" => $info, "type" => $type]);
                 }
             }
+
+            $fixPositions = [];
+            foreach ($files as $file){
+                if($file['type'] == 'folder'){
+                    $fixPositions[] = $file;
+                }
+            }
+            foreach ($files as $file){
+                if($file['type'] != 'folder'){
+                    $fixPositions[] = $file;
+                }
+            }
+
+            $files = $fixPositions;
 
             return $listOnly ? $files : $this->view('home/index', [
                 'title' => translate('sidebar_home'),
@@ -269,7 +289,7 @@ class ManagerController extends Controller {
     }
 
     public function getFolders(){
-        $listing = $this->list(true);
+        $listing = $this->list(true, true);
         $filteredArray = [];
         if(!empty($listing)){
             $filteredArray = array_filter($listing, function($item) {
@@ -277,6 +297,43 @@ class ManagerController extends Controller {
             });
         }
         return $filteredArray;
+    }
+
+    public function getAllFolders($dir = false, $excludeCurrentListFolder = true){
+        $folders = [];
+
+        if(!$dir){
+            $dir = $this->uploadFolder;
+
+            if(isset($_GET['content'])){
+                $folders[] = EzFile::pathInfo($dir, true);
+                $folders[0]['main_folder'] = true;
+            }
+        }
+
+        if ($handle = opendir($dir)) {
+            while (($item = readdir($handle)) !== false) {
+                if ($item != "." && $item != "..") {
+                    if (is_dir($dir . '/' . $item)) {
+                        $add = true;
+                        if($excludeCurrentListFolder && isset($_GET['content'])){
+                            if(strpos($dir . '/' . $item, $_GET['content']) !== false){
+                                $add = false;
+                            }
+                        }
+
+                        if($add){
+                            $folders[] = EzFile::pathInfo($dir . '/' . $item, true);
+                        }
+                        $subfolders = $this->getAllFolders($dir . '/' . $item);
+                        $folders = array_merge($folders, $subfolders);
+                    }
+                }
+            }
+            closedir($handle);
+        }
+
+        return $folders;
     }
 
     private function getStoragePath($filepath){

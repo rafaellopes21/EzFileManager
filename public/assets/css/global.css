@@ -173,3 +173,68 @@ li.breadcrumb-item:hover{
     top: 1px;
     position: relative;
 }
+.archive-card{
+    padding: 10px;
+}
+.archive-link, .folder-selection{
+    cursor: pointer;
+}
+.archive-title{
+    text-align: center;
+    font-size: 1.2em;
+}
+.archive-menu{
+    right: 2px;
+    top: 1px;
+    font-size: 18px;
+}
+.archive-menu:hover{
+    color: #517ce0;
+}
+.bg-dark .archive-menu:hover{
+    color: #ffffff;
+}
+.bg-dark .archive-menu .dropdown-menu{
+    background: #4b4b4b;
+    border: 1px solid #939393;
+}
+.bg-dark .archive-menu .dropdown-menu .dropdown-item{
+    color: white;
+}
+.archive-menu .dropdown-menu i{
+    margin-right: 6px;
+}
+.icon{
+    text-align: center;
+    color: #508de7;
+}
+.icon i{
+    font-size: 66px;
+}
+@media (max-width: 991px) {
+    .icon i{
+        font-size: 53px;
+    }
+}
+@media (max-width: 768px) {
+    .icon i{
+        font-size: 44px;
+    }
+}
+.deletion a{
+    background: #bb4f4f;
+}
+.deletion a:hover{
+    background: #a52f2f !important;
+}
+.detailing-archive li{
+    font-size: 13px;
+    padding: 6px 8px;
+}
+.dir_detail{
+    font-size: 11px;
+    position: relative;
+    top: -4px;
+    left: 30px;
+    margin-bottom: -8px;
+}
